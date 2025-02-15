@@ -51,11 +51,13 @@ const Navbar = () => {
             </ul>
         )}
         </div>
+        <Link to="/">
           <img
             src={bizionicTechLogo}
             alt="Bizionic Tech"
             className="md:w-[107px] md:h-[63px] w-[90px] h-[25px] object-contain"
           />
+        </Link>
         </div>
          <div className="">
           <button className="block md:hidden bg-[#605DEC] py-2 px-4 md:py-3 md:px-5 rounded-[5px] border-2 border-[#605DEC] text-base text-[#FAFAFA] hover:text-[#605DEC] hover:bg-white hover:border-2 hover:border-[#605DEC] transition-all duration-200" onClick={() => setSignin(!signin)}>Sign up</button>
