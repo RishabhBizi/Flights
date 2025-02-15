@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
-import { map } from "../assets/images";
+import { map, sea } from "../assets/images";
 import {
   delta,
   france,
@@ -23,6 +23,7 @@ const FlightChoose = () => {
   const departureDate = searchParams.get('departureDate');
   const adults = searchParams.get('adults');
   const nonStop = searchParams.get('nonStop');
+  const returnDate = searchParams.get('returnDate');
   const max = searchParams.get('max');
   
   const [flightOptions,setFlightOptions]=useState([]);
@@ -78,7 +79,7 @@ const FlightChoose = () => {
                      stop={"Non Stop"}
                      // hnl="2h 45m in HNL"
                      price={`${flight?.price?.currency === "USD"?"$":flight?.price?.currency} ${flight?.price?.total}`}
-                     trip="round trip"
+                     trip="One Way"
                    />
                  
                </div>
