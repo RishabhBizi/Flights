@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import { useSearchParams } from 'react-router-dom';
 import { map } from "../assets/images";
 import {
   delta,
@@ -10,10 +11,30 @@ import {
 } from "../assets/logo";
 import { FlightCard, PriceDetails, PriceGraph } from "../container";
 import { Link } from "react-router-dom";
+import { authLogin } from "../../utils/authLogin";
+import axios from "axios";
 
 const FlightChoose = () => {
+  const [searchParams] = useSearchParams();
+  const location = searchParams.get('location');
+  const guests = searchParams.get('guests');
   const [priceShown, setPriceShow] = useState(true);
-
+  const [authToken,setAuthToken] = useState('');
+  useEffect(()=>{
+  authLogin().then(response=>{
+    console.log("response is: ",response)
+    setAuthToken(response.access_token);
+  }).catch(error=>console.log("error occured while authenticating"));
+  },[])
+  async function fetchFlightDetails() {
+    try {
+      let url = import.meta.env.VITE_FLIGHT_JAVA_BACKEND + "/api/v1/flightService/flights/getflights?originLocationCode=DTW&destinationLocationCode=NYC&departureDate=2025-05-02&adults=1&travelClass=ECONOMY&nonStop=false&max=10&currencyCode=USD"
+      const response = await axios.get(url)
+      console.log("flights data: ",response.data);
+    } catch (error) {
+      console.log("Error occurred while fetching the flight data: ",error)
+    }
+  }
   return (
     <>
       <div className="flex lg:flex-row flex-col items-start justify-between gap-16 ">
@@ -24,6 +45,7 @@ const FlightChoose = () => {
               <span className="text-[#605DEC]">returning </span>flight
             </h1>
           </div>
+          <button onClick={fetchFlightDetails}>Click me</button>
           <div className="w-full flex flex-col items-start justify-start  border-[1px] border-[#E9E8FC] rounded-xl">
             <div
               className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"

@@ -45,6 +45,10 @@ const AutoSuggest = (initialValue) => {
 const Hero = () => {
   // const navigate = useNavigate();
   const [openDate, setOpenDate] = useState(false);
+  const [listOfAirports,setListOfAirports] = useState([]);
+  const fromWhere = () =>{
+      console.log("environment variable: ",import.meta.env)
+  }
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -140,9 +144,9 @@ const Hero = () => {
               onClick={() => setOpenDate(!openDate)}
             >
               {openDate
-                ? `${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
+                ? `${format(date[0].startDate, "yyyy-mm-dd")} to ${format(
                     date[0].endDate,
-                    "dd/MM/yyyy"
+                    "yyyy-mm-dd"
                   )}`
                 : "Depart to Return"}
             </span>
