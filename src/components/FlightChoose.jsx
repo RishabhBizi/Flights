@@ -64,12 +64,13 @@ const FlightChoose = () => {
           <div className="w-full flex flex-col items-start justify-start  border-[1px] border-[#E9E8FC] rounded-xl">
           {flightOptions?.map((flight,index)=>(
                  <div
+                 key={index}
                  className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
                  onClick={() => setPriceShow(false)}
                >
                  
                   <FlightCard
-                     key={index}
+                     
                      airlineCode={flight?.validatingAirlineCodes[0]}
                      img={flight?.validatingAirlineCodes[0]}
                      duration={formatFlightDuration(flight?.itineraries[0]?.segments[0]?.duration)}

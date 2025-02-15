@@ -9,46 +9,20 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { suggestions } from "../data/constant";
+import { formatUTCDate } from "../../utils/dateFormatter";
 
 
-const AutoSuggest = (initialValue) => {
-  const [input, setInput] = useState('');
-  const [matchingSuggestions, setMatchingSuggestions] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const handleInputChange = (event) => {
-    const inputValue = event.target.value.toLowerCase();
-    setInput(inputValue);
-
-    const filteredSuggestions = suggestions.filter((suggestion) =>
-      suggestion.toLowerCase().startsWith(inputValue)
-    );
-    setMatchingSuggestions(filteredSuggestions);
-  };
-
-  const handleSuggestionClick = (suggestion) => {
-    setInput(suggestion);
-    setIsOpen(false);
-  };
-
-  return {
-    input,
-    matchingSuggestions,
-    isOpen,
-    setInput,
-    setIsOpen,
-    handleInputChange,
-    handleSuggestionClick,
-  };
-}
 
 const Hero = () => {
+  
   // const navigate = useNavigate();
   const [openDate, setOpenDate] = useState(false);
   const [listOfAirports,setListOfAirports] = useState([]);
   const [fromWhereLocation,setFromWhereLocation]=useState('');
   const [toWhereLocation,setToWhereLocation]=useState('');
   const [departureDate,setDepartureDate]=useState('');
+  const [returnDate,setReturnDate]=useState('');
   const [noOfAdults,setNoOfAdults]=useState(1);
   const [isNonStop,setIsNonStop]=useState(false);
   const fromWhere = (e) =>{
@@ -70,6 +44,53 @@ const Hero = () => {
     adult: 1,
     minor: 0,
   });
+  const [input, setInput] = useState('');
+    const [toInput,setToInput] = useState('')
+  const AutoSuggest = (initialValue) => {
+    
+    const [matchingSuggestions, setMatchingSuggestions] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+  
+    const handleInputChange = (event) => {
+      const inputValue = event.target.value.toLowerCase();
+      setToInput(inputValue);
+  
+      const filteredSuggestions = suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().startsWith(inputValue)
+      );
+      setMatchingSuggestions(filteredSuggestions);
+    };
+    const handleInputChangeArrival = (event) => {
+      const inputValue = event.target.value.toLowerCase();
+      setInput(inputValue);
+  
+      const filteredSuggestions = suggestions.filter((suggestion) =>
+        suggestion.toLowerCase().startsWith(inputValue)
+      );
+      setMatchingSuggestions(filteredSuggestions);
+    };
+  
+    const handleSuggestionClick = (suggestion) => {
+      setFromWhereLocation(suggestion);
+      setInput(suggestion)
+      setIsOpen(false);
+    };
+    const handleSuggestionClickArrival = (suggestion) => {
+      setToWhereLocation(suggestion);
+      setIsOpen(false);
+    };
+  
+    return {
+      matchingSuggestions,
+      handleInputChangeArrival,
+      isOpen,
+      setInput,
+      setIsOpen,
+      handleInputChange,
+      handleSuggestionClick,
+      handleSuggestionClickArrival
+    };
+  }
 
   const handleOptions = (name, oparetion) => {
     setOptions((prev) => {
@@ -99,15 +120,15 @@ const Hero = () => {
             <input
               type="text"
               placeholder="From where?"
-              value={departureSuggest.input}
-              onChange={(e)=>fromWhere(e)}
+              value={input}
+              onChange={(e)=>setInput(e.target.value)}
               onFocus={() => departureSuggest.setIsOpen(true)}
               className="uppercase placeholder:capitalize outline-none border-none ml-2 text-base text-[#7C8DB0] placeholder:text-[#7C8DB0] placeholder:text-base placeholder:leading-6"
              
             />
            { departureSuggest.isOpen && ( 
            <ul className="w-[220px] h-56 absolute top-[70px]  bg-white rounded overflow-scroll">
-              {departureSuggest.matchingSuggestions.map((suggestion) => (
+              {suggestions.filter((item) => item.startsWith(input)).map((suggestion) => (
                 <li
                   key={suggestion}
                   onClick={() => departureSuggest.handleSuggestionClick(suggestion)}
@@ -125,17 +146,17 @@ const Hero = () => {
             <input
               type="text"
               placeholder="Where to?"
-              value={arrivalSuggest.input}
-        onChange={arrivalSuggest.handleInputChange}
+              value={toInput}
+        onChange={(e)=>setToInput(e.target.value)}
         onFocus={() => arrivalSuggest.setIsOpen(true)}
               className="uppercase placeholder:capitalize outline-none border-none ml-2 text-base text-[#7C8DB0] placeholder:text-[#7C8DB0] placeholder:text-base placeholder:leading-6"
             />
            { arrivalSuggest.isOpen && (
             <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
-              {arrivalSuggest.matchingSuggestions.map((suggestion) => (
+              {suggestions.filter((item) => item.startsWith(toInput)).map((suggestion) => (
                 <li
                   key={suggestion}
-                  onClick={() => arrivalSuggest.handleSuggestionClick(suggestion)}
+                  onClick={() => arrivalSuggest.handleSuggestionClickArrival(suggestion)}
                   className="uppercase cursor-pointer hover:bg-[#605DEC] px-3 py-1 text-[#7C8DB0] hover:text-[#F6F6FE]  mt-1"
                 >
                   {suggestion}
@@ -161,7 +182,13 @@ const Hero = () => {
             {openDate && (
               <DateRange
                 editableDateInputs={true}
-                onChange={(item) => setDate([item.selection])}
+                onChange={(item) => {
+                  console.log("item: ",item.selection)
+                  const localFormattedDate = formatUTCDate(item.selection.startDate);
+                  setDepartureDate(localFormattedDate)
+                  const returnDate = formatUTCDate(item.selection.endDate);
+                  setReturnDate(returnDate);
+                  setDate([item.selection])}}
                 moveRangeOnFirstSelection={false}
                 ranges={date}
                 className="absolute top-64 lg:top-20 z-10 "
@@ -224,6 +251,11 @@ const Hero = () => {
               </div>
             )}
           </div>
+          {console.log("depart",fromWhereLocation)}
+          {console.log("destin",toWhereLocation)}
+          {console.log("depart date",departureDate)}
+          {console.log("adults",noOfAdults)}
+          {console.log("is nnon",isNonStop)}
 
           <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&adults=${noOfAdults}&nonStop=${isNonStop}&max=10`} className="w-full ">
             <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5   lg:rounded-r-[4px]">
