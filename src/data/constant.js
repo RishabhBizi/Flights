@@ -1,1 +1,1 @@
-export const suggestions = ['LAX', 'JFK', 'ORD', 'DXB', 'LHR', 'SFO', 'NRT','CDG', 'AMS', 'SIN', 'PEK','SYD', 'HND', 'FRA', 'YYZ', 'ATL', 'ICN'];
+export const suggestions =['LAX', 'JFK', 'ORD', 'SFO', 'ATL', 'DFW', 'DEN', 'SEA', 'MIA', 'LAS', 'PHX', 'IAH', 'BOS', 'MSP', 'DTW', 'CLT', 'EWR'];

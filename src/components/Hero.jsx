@@ -77,6 +77,7 @@ const Hero = () => {
     };
     const handleSuggestionClickArrival = (suggestion) => {
       setToWhereLocation(suggestion);
+      setToInput(suggestion)
       setIsOpen(false);
     };
   

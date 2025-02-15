@@ -60,7 +60,6 @@ const FlightChoose = () => {
               <span className="text-[#605DEC]">returning </span>flight
             </h1>
           </div>
-          <button onClick={fetchFlightDetails}>Click me</button>
           <div className="w-full flex flex-col items-start justify-start  border-[1px] border-[#E9E8FC] rounded-xl">
           {flightOptions?.map((flight,index)=>(
                  <div
