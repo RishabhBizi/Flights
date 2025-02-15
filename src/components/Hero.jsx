@@ -1,6 +1,6 @@
 import { departure, arrival, calendar, person } from "../assets/icons";
 
-import { DateRange } from "react-date-range";
+import { DateRange,Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
@@ -174,22 +174,19 @@ const Hero = () => {
               onClick={() => setOpenDate(!openDate)}
             >
               {openDate
-                ? `${format(date[0].startDate, "yyyy-mm-dd")} to ${format(
-                    date[0].endDate,
-                    "yyyy-mm-dd"
-                  )}`
-                : "Depart to Return"}
+                ? departureDate
+                : "Departure Date"}
             </span>
             {openDate && (
-              <DateRange
+              <Calendar 
                 editableDateInputs={true}
                 onChange={(item) => {
-                  console.log("item: ",item.selection)
-                  const localFormattedDate = formatUTCDate(item.selection.startDate);
+                  console.log("item: ",item)
+                  const localFormattedDate = formatUTCDate(item);
                   setDepartureDate(localFormattedDate)
-                  const returnDate = formatUTCDate(item.selection.endDate);
+                  const returnDate = formatUTCDate(item);
                   setReturnDate(returnDate);
-                  setDate([item.selection])}}
+                  setDate([item])}}
                 moveRangeOnFirstSelection={false}
                 ranges={date}
                 className="absolute top-64 lg:top-20 z-10 "

@@ -7,7 +7,8 @@ import {
     quantas,
     united,
     jetBlue,
-    frontierAirlineLogo
+    frontierAirlineLogo,
+    alaskaAirlineLogo
   } from "../assets/logo";
 
 
@@ -24,6 +25,10 @@ const airlineCodes = {
   "F9":{
     "name":"Frontier Airlines",
     "logo":frontierAirlineLogo
+  },
+  "AS":{
+    "name":"Alaska Airlines",
+    "logo":alaskaAirlineLogo
   }
 };
 
