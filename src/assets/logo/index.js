@@ -9,6 +9,8 @@ import Korean from './KoreanAir.png'
 import quantas from './QantasAirlines.png'
 import united from './UnitedAirlines.png'
 import tripma from './tripma.png'
+import jetBlue from './jetblue.webp'
+import bizionicTechLogo from "./bizionictech-logo.webp"
 
 export {
     china,
@@ -21,5 +23,7 @@ export {
     Korean,
     quantas,
     united,
-    tripma
+    tripma,
+    bizionicTechLogo,
+    jetBlue
 }

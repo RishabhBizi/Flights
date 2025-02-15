@@ -13,27 +13,42 @@ import { FlightCard, PriceDetails, PriceGraph } from "../container";
 import { Link } from "react-router-dom";
 import { authLogin } from "../../utils/authLogin";
 import axios from "axios";
+import { formatFlightDuration } from "../../utils/formatFlightDuration";
+import {formatTimeTo12Hour} from "../../utils/formatTimeTo12Hour";
 
 const FlightChoose = () => {
   const [searchParams] = useSearchParams();
-  const location = searchParams.get('location');
-  const guests = searchParams.get('guests');
+  const originLocationCode = searchParams.get('originLocationCode');
+  const destinationLocationCode = searchParams.get('destinationLocationCode');
+  const departureDate = searchParams.get('departureDate');
+  const adults = searchParams.get('adults');
+  const nonStop = searchParams.get('nonStop');
+  const max = searchParams.get('max');
+  
+  const [flightOptions,setFlightOptions]=useState([]);
+
   const [priceShown, setPriceShow] = useState(true);
   const [authToken,setAuthToken] = useState('');
   useEffect(()=>{
-  authLogin().then(response=>{
-    console.log("response is: ",response)
-    setAuthToken(response.access_token);
+    fetchFlightDetails().then(response=>{
+    const data = response?.data;
+    console.log("in useEffect",data)
+    if(data){
+      console.log("inside if")
+      setFlightOptions(data);
+    }
   }).catch(error=>console.log("error occured while authenticating"));
   },[])
   async function fetchFlightDetails() {
     try {
-      let url = import.meta.env.VITE_FLIGHT_JAVA_BACKEND + "/api/v1/flightService/flights/getflights?originLocationCode=DTW&destinationLocationCode=NYC&departureDate=2025-05-02&adults=1&travelClass=ECONOMY&nonStop=false&max=10&currencyCode=USD"
+      let url = import.meta.env.VITE_FLIGHT_JAVA_BACKEND + `/api/v1/flightService/flights/getflights?originLocationCode=${originLocationCode}&destinationLocationCode=${destinationLocationCode}&departureDate=${departureDate}&adults=${adults}&travelClass=ECONOMY&nonStop=${nonStop}&max=${max}&currencyCode=USD`
       const response = await axios.get(url)
       console.log("flights data: ",response.data);
+      return response.data;
     } catch (error) {
       console.log("Error occurred while fetching the flight data: ",error)
     }
+    return null;
   }
   return (
     <>
@@ -47,22 +62,28 @@ const FlightChoose = () => {
           </div>
           <button onClick={fetchFlightDetails}>Click me</button>
           <div className="w-full flex flex-col items-start justify-start  border-[1px] border-[#E9E8FC] rounded-xl">
-            <div
-              className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
-              onClick={() => setPriceShow(false)}
-            >
-              <FlightCard
-                img={hawaiian}
-                duration="16h 45m"
-                name="Hawaiian Airlines"
-                time="7:00AM - 4:15PM"
-                stop="1 stop"
-                hnl="2h 45m in HNL"
-                price="$624"
-                trip="round trip"
-              />
-            </div>
-            <div
+          {flightOptions?.map((flight,index)=>(
+                 <div
+                 className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
+                 onClick={() => setPriceShow(false)}
+               >
+                 
+                  <FlightCard
+                     key={index}
+                     airlineCode={flight?.validatingAirlineCodes[0]}
+                     img={flight?.validatingAirlineCodes[0]}
+                     duration={formatFlightDuration(flight?.itineraries[0]?.segments[0]?.duration)}
+                     name={flight?.validatingAirlineCodes[0]}
+                     time={`${formatTimeTo12Hour(flight?.itineraries[0]?.segments[0]?.departure?.at)} - ${formatTimeTo12Hour(flight?.itineraries[0]?.segments[0]?.arrival?.at)}`}
+                     stop={"Non Stop"}
+                     // hnl="2h 45m in HNL"
+                     price={`${flight?.price?.currency === "USD"?"$":flight?.price?.currency} ${flight?.price?.total}`}
+                     trip="round trip"
+                   />
+                 
+               </div>
+                ))}
+            {/* <div
               className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC]  hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
               onClick={() => setPriceShow(false)}
             >
@@ -133,11 +154,11 @@ const FlightChoose = () => {
                 price="$964"
                 trip="round trip"
               />
-            </div>
+            </div> */}
           </div>
-          <div className="w-full lg:mt-12">
+          {/* <div className="w-full lg:mt-12">
             <img src={map} alt="map" className="w-full h-full object-cover" />
-          </div>
+          </div> */}
         </div>
 
         {priceShown && (

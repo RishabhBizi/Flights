@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { tripma } from "../assets/logo";
+import { bizionicTechLogo } from "../assets/logo";
 import { MdOutlineClose } from 'react-icons/md'
 import { BiMenuAltLeft } from 'react-icons/bi'
 import { useState } from "react";
@@ -52,9 +52,9 @@ const Navbar = () => {
         )}
         </div>
           <img
-            src={tripma}
-            alt="Tripma"
-            className="md:w-[107px] md:h-[30px] w-[90px] h-[25px] object-contain"
+            src={bizionicTechLogo}
+            alt="Bizionic Tech"
+            className="md:w-[107px] md:h-[63px] w-[90px] h-[25px] object-contain"
           />
         </div>
          <div className="">

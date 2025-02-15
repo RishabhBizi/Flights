@@ -46,8 +46,16 @@ const Hero = () => {
   // const navigate = useNavigate();
   const [openDate, setOpenDate] = useState(false);
   const [listOfAirports,setListOfAirports] = useState([]);
-  const fromWhere = () =>{
-      console.log("environment variable: ",import.meta.env)
+  const [fromWhereLocation,setFromWhereLocation]=useState('');
+  const [toWhereLocation,setToWhereLocation]=useState('');
+  const [departureDate,setDepartureDate]=useState('');
+  const [noOfAdults,setNoOfAdults]=useState(1);
+  const [isNonStop,setIsNonStop]=useState(false);
+  const fromWhere = (e) =>{
+      console.log("environment variable: ",e.target.value)
+      setFromWhereLocation("DTW")
+      setToWhereLocation("NYC")
+      setDepartureDate("2025-05-03")
   }
   const [date, setDate] = useState([
     {
@@ -92,7 +100,7 @@ const Hero = () => {
               type="text"
               placeholder="From where?"
               value={departureSuggest.input}
-              onChange={departureSuggest.handleInputChange}
+              onChange={(e)=>fromWhere(e)}
               onFocus={() => departureSuggest.setIsOpen(true)}
               className="uppercase placeholder:capitalize outline-none border-none ml-2 text-base text-[#7C8DB0] placeholder:text-[#7C8DB0] placeholder:text-base placeholder:leading-6"
              
@@ -217,7 +225,7 @@ const Hero = () => {
             )}
           </div>
 
-          <Link to="/explore" className="w-full ">
+          <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&adults=${noOfAdults}&nonStop=${isNonStop}&max=10`} className="w-full ">
             <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5   lg:rounded-r-[4px]">
               Search
             </button>
