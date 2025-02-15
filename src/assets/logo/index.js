@@ -11,6 +11,7 @@ import united from './UnitedAirlines.png'
 import tripma from './tripma.png'
 import jetBlue from './jetblue.webp'
 import bizionicTechLogo from "./bizionictech-logo.webp"
+import frontierAirlineLogo from "./frontierAirline-logo.png";
 
 export {
     china,
@@ -25,5 +26,6 @@ export {
     united,
     tripma,
     bizionicTechLogo,
-    jetBlue
+    jetBlue,
+    frontierAirlineLogo
 }
