@@ -123,7 +123,7 @@ const Hero = () => {
       <header className="flex flex-col items-center relative w-full h-[529px] px-7 py-4">
         <div className="flex justify-center items-center">
           <h1 className="font-extrabold text-5xl sm:text-7xl md:text-8xl text-center leading-[55px] sm:leading-[70px] md:leading-[90px] text-gradient">
-            It's more than <br /> just a trip
+          TRAVEL MORE, SPEND LESS <br /> <p className="text-6xl">FLY SMART, SKIP THE FEES!</p>
           </h1>
         </div>
 
@@ -141,7 +141,7 @@ const Hero = () => {
             />
            { departureSuggest.isOpen && ( 
            <ul className="w-[220px] h-56 absolute top-[70px]  bg-white rounded overflow-scroll">
-              {suggestions.filter((item) => item.name.startsWith(input)).map((suggestion,id) => (
+              {suggestions.filter((item) => item.name.startsWith(input.toLocaleUpperCase())).map((suggestion,id) => (
                 <li
                   key={id}
                   onClick={() => departureSuggest.handleSuggestionClick(suggestion.code)}
@@ -167,7 +167,7 @@ const Hero = () => {
             />
            { arrivalSuggest.isOpen && (
             <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
-              {suggestions.filter((item) => item.name.startsWith(toInput)).map((suggestion,id) => (
+              {suggestions.filter((item) => item.name.startsWith(toInput.toLocaleUpperCase())).map((suggestion,id) => (
                 <li
                   key={id}
                   onClick={() => arrivalSuggest.handleSuggestionClickArrival(suggestion.code)}

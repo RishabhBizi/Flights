@@ -80,7 +80,7 @@ const SelectDetails = () => {
               />
               { departureLocationSuggestions && (
                           <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
-                            {suggestions.filter((item) => item.name.startsWith(departureLocation)).map((suggestion,id) => (
+                            {suggestions.filter((item) => item.name.startsWith(departureLocation.toLocaleUpperCase())).map((suggestion,id) => (
                               <li
                                 key={id}
                                 onClick={() =>{
@@ -109,7 +109,7 @@ const SelectDetails = () => {
               />
               { arrivalLocationSuggestions && (
                           <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
-                            {suggestions.filter((item) => item.name.startsWith(destinationLocation)).map((suggestion,id) => (
+                            {suggestions.filter((item) => item.name.startsWith(destinationLocation.toLocaleUpperCase())).map((suggestion,id) => (
                               <li
                                 key={id}
                                 onClick={() =>{
