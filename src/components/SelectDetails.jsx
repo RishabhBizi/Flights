@@ -13,6 +13,7 @@ const SelectDetails = () => {
   const [openDate, setOpenDate] = useState(false);
   const originLocationCode = searchParams.get("originLocationCode");
   const adults = searchParams.get("adults");
+  const children = searchParams.get("children");
   const destinationLocationCode = searchParams.get("destinationLocationCode");
   const departureDate = searchParams.get("departureDate");
   const [departureLocation, setDepartureLocation] =
@@ -22,14 +23,20 @@ const SelectDetails = () => {
   );
   const [departureDateState, setDepartureDateState] = useState(departureDate);
   const [noOfAdults, setNoOfAdults] = useState(adults);
+  const [noOfMinors,setNoOfMinors]=useState(children);
   const [date, setDate] = useState([new Date(departureDate)]);
+  console.log("date is: ",date)
   const [isNonStop,setIsNonStop]=useState(true);
+  const [travelClass,setTravelClass]=useState("ECONOMY")
 
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
     adult: 1,
     minor: 0,
   });
+  const handleTravelClass = (value)=>{
+    setTravelClass(value);
+  }
 
   const handleOptions = (name, oparetion) => {
     setOptions((prev) => {
@@ -39,6 +46,17 @@ const SelectDetails = () => {
       };
     });
   };
+  const handleTravellersIncrement = (setState)=>{
+    setState((prev)=>prev+1)
+  }
+  const handleTravellersDecrement = (setState)=>{
+    setState(prev=>{
+      if (prev -1 >=0){
+        return prev-1;
+      }
+      return 0;
+    })
+  }
 
   return (
     <>
@@ -98,7 +116,7 @@ const SelectDetails = () => {
                 className="text-[#7C8DB0] text-sm leading-6 ml-2 cursor-pointer"
                 onClick={() => setOpenOptions(!openOptions)}
               >
-                {`${noOfAdults} Adult - ${options.minor} Minor `}
+                {`${noOfAdults} Adult - ${noOfMinors} Minor `}
               </span>
               {openOptions && (
                 <div className="w-52 h-fit flex flex-col gap-4 rounded-md bg-white shadowCard absolute lg:top-[70px] top-64 p-4 z-10">
@@ -109,15 +127,15 @@ const SelectDetails = () => {
                     <div className="flex items-center gap-4">
                       <button
                         className="border-2 border-[#605DEC] px-2 text-[#7C8DB0] disabled:cursor-not-allowed"
-                        onClick={() => handleOptions("adult", "d")}
-                        disabled={options.adult <= 1}
+                        onClick={() => handleTravellersDecrement(setNoOfAdults)}
+                        disabled={noOfAdults=== 1}
                       >
                         -
                       </button>
-                      <span className="text-[#7C8DB0]">{options.adult}</span>
+                      <span className="text-[#7C8DB0]">{noOfAdults}</span>
                       <button
                         className="border-2 border-[#605DEC] px-2 text-[#7C8DB0]"
-                        onClick={() => handleOptions("adult", "i")}
+                        onClick={() => handleTravellersIncrement(setNoOfAdults)}
                       >
                         +
                       </button>
@@ -130,15 +148,15 @@ const SelectDetails = () => {
                     <div className="flex items-center gap-4">
                       <button
                         className="border-2 border-[#605DEC] px-2 text-[#7C8DB0] disabled:cursor-not-allowed"
-                        onClick={() => handleOptions("minor", "d")}
-                        disabled={options.minor <= 0}
+                        onClick={() => handleTravellersDecrement(setNoOfMinors)}
+                        disabled={noOfMinors=== 0}
                       >
                         -
                       </button>
-                      <span className="text-[#7C8DB0]">{options.minor}</span>
+                      <span className="text-[#7C8DB0]">{noOfMinors}</span>
                       <button
                         className="border-2 border-[#605DEC] px-2 text-[#7C8DB0]"
-                        onClick={() => handleOptions("minor", "i")}
+                        onClick={() => handleTravellersIncrement(setNoOfMinors)}
                       >
                         +
                       </button>
@@ -149,7 +167,7 @@ const SelectDetails = () => {
             </div>
 
             <div className="w-full lg:w-[96px] ">
-              <Link to={`/explore?originLocationCode=${departureLocation}&destinationLocationCode=${destinationLocation}&departureDate=${departureDateState}&adults=${noOfAdults}&nonStop=${isNonStop}&max=10`} className="w-full ">
+              <Link to={`/explore?originLocationCode=${departureLocation}&destinationLocationCode=${destinationLocation}&departureDate=${departureDateState}&adults=${noOfAdults}&children=${noOfMinors}&nonStop=${isNonStop}&travelClass=${travelClass}&max=10`} className="w-full ">
               <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[48px] px-5   rounded-b-[4px] lg:rounded-r-[4px]">
                 Search
               </button>
@@ -160,7 +178,7 @@ const SelectDetails = () => {
           {/* Select section */}
 
           <div className="flex flex-wrap items-center  justify-start gap-3 mt-48 lg:mt-1 ">
-            <select
+            {/* <select
               name="price"
               id="max-price"
               className="border-[1px] border-[#CBD4E6] bg-white text-[#27273F] p-1 cursor-pointer"
@@ -192,7 +210,7 @@ const SelectDetails = () => {
               <option value="7 AM - 4 PM">7 AM - 4 PM</option>
               <option value="8 AM - 12 PM">8 AM - 12 PM</option>
               <option value="6 PM - 10 PM">6 PM - 10 PM</option>
-            </select>
+            </select> */}
             <select
               name="airlines"
               id="airlines"
@@ -201,23 +219,25 @@ const SelectDetails = () => {
               <option value="airlines" className="">
                 Airlines
               </option>
-              <option value="Japan">Japan</option>
-              <option value="Hawai">Hawai</option>
-              <option value="Dubai">Dubai</option>
+              <option value="Japan">United Airlines</option>
+              <option value="Hawai">Frontier Airlines</option>
+              <option value="Dubai">Alaska Airlines</option>
             </select>
             <select
               name="class"
               id="class"
               className="border-[1px] border-[#CBD4E6] bg-white text-[#27273F] p-1 cursor-pointer"
+              onChange={(e)=>handleTravelClass(e.target.value)}
             >
-              <option value="class" className="">
+              <option value="ECONOMY" className="">
                 Select Class
               </option>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
+              <option value="ECONOMY">Economy</option>
+              <option value="PREMIUM_ECONOMY">Premium Economy</option>
+              <option value="BUSINESS">Business</option>
+              <option value="FIRST">First</option>
             </select>
-            <select
+            {/* <select
               name="price"
               id="max-price"
               className="border-[1px] border-[#CBD4E6] bg-white text-[#27273F] p-1 cursor-pointer"
@@ -225,7 +245,7 @@ const SelectDetails = () => {
               <option value="max-price" className="">
                 more
               </option>
-            </select>
+            </select> */}
           </div>
         </div>
       </div>

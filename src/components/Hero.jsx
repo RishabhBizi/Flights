@@ -24,6 +24,7 @@ const Hero = () => {
   const [departureDate,setDepartureDate]=useState('');
   const [returnDate,setReturnDate]=useState('');
   const [noOfAdults,setNoOfAdults]=useState(1);
+  const [noOfMinors,setNoOfMinors]=useState(0);
   const [isNonStop,setIsNonStop]=useState(false);
   const fromWhere = (e) =>{
       console.log("environment variable: ",e.target.value)
@@ -101,6 +102,17 @@ const Hero = () => {
       };
     });
   };
+  const handleTravellersIncrement = (setState)=>{
+    setState((prev)=>prev+1)
+  }
+  const handleTravellersDecrement = (setState)=>{
+    setState(prev=>{
+      if (prev -1 >=0){
+        return prev-1;
+      }
+      return 0;
+    })
+  }
 
   const departureSuggest = AutoSuggest('');
   const arrivalSuggest = AutoSuggest('');
@@ -200,7 +212,7 @@ const Hero = () => {
               className="text-[#7C8DB0] text-base leading-6 ml-2 cursor-pointer"
               onClick={() => setOpenOptions(!openOptions)}
             >
-              {`${options.adult} Adult - ${options.minor} Minor `}
+              {`${noOfAdults} Adult - ${noOfMinors} Minor `}
             </span>
             {openOptions && (
               <div className="w-52 h-fit flex flex-col gap-4 rounded-md bg-white shadowCard absolute lg:top-[70px] top-64 p-4 z-10">
@@ -211,15 +223,15 @@ const Hero = () => {
                   <div className="flex items-center gap-4">
                     <button
                       className="border-2 border-[#605DEC] px-2 text-[#7C8DB0] disabled:cursor-not-allowed"
-                      onClick={() => handleOptions("adult", "d")}
-                      disabled={options.adult <= 1}
+                      onClick={() => handleTravellersDecrement(setNoOfAdults)}
+                      disabled={noOfAdults=== 1}
                     >
                       -
                     </button>
-                    <span className="text-[#7C8DB0]">{options.adult}</span>
+                    <span className="text-[#7C8DB0]">{noOfAdults}</span>
                     <button
                       className="border-2 border-[#605DEC] px-2 text-[#7C8DB0]"
-                      onClick={() => handleOptions("adult", "i")}
+                      onClick={() => handleTravellersIncrement(setNoOfAdults)}
                     >
                       +
                     </button>
@@ -232,15 +244,15 @@ const Hero = () => {
                   <div className="flex items-center gap-4">
                     <button
                       className="border-2 border-[#605DEC] px-2 text-[#7C8DB0] disabled:cursor-not-allowed"
-                      onClick={() => handleOptions("minor", "d")}
-                      disabled={options.minor <= 0}
+                      onClick={() => handleTravellersDecrement(setNoOfMinors)}
+                      disabled={noOfMinors=== 0}
                     >
                       -
                     </button>
-                    <span className="text-[#7C8DB0]">{options.minor}</span>
+                    <span className="text-[#7C8DB0]">{noOfMinors}</span>
                     <button
                       className="border-2 border-[#605DEC] px-2 text-[#7C8DB0]"
-                      onClick={() => handleOptions("minor", "i")}
+                      onClick={() => handleTravellersIncrement(setNoOfMinors)}
                     >
                       +
                     </button>
@@ -250,7 +262,7 @@ const Hero = () => {
             )}
           </div>
 
-          <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&adults=${noOfAdults}&nonStop=${isNonStop}&max=10`} className="w-full ">
+          <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&adults=${noOfAdults}&children=${noOfMinors}&nonStop=${isNonStop}&max=10`} className="w-full ">
             <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5   lg:rounded-r-[4px]">
               Search
             </button>

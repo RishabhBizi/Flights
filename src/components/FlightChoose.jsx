@@ -1,6 +1,6 @@
-import { useState,useEffect } from "react";
-import { useSearchParams } from 'react-router-dom';
-import {Circles} from "react-loader-spinner"
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Circles } from "react-loader-spinner";
 import { map, sea } from "../assets/images";
 import {
   delta,
@@ -15,43 +15,54 @@ import { Link } from "react-router-dom";
 import { authLogin } from "../../utils/authLogin";
 import axios from "axios";
 import { formatFlightDuration } from "../../utils/formatFlightDuration";
-import {formatTimeTo12Hour} from "../../utils/formatTimeTo12Hour";
+import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 
 const FlightChoose = () => {
   const [searchParams] = useSearchParams();
-  const [isLoading,setIsLoading]=useState(true);
-  const originLocationCode = searchParams.get('originLocationCode');
-  const destinationLocationCode = searchParams.get('destinationLocationCode');
-  const departureDate = searchParams.get('departureDate');
-  const adults = searchParams.get('adults');
-  const nonStop = searchParams.get('nonStop');
-  const returnDate = searchParams.get('returnDate');
-  const max = searchParams.get('max');
-  
-  const [flightOptions,setFlightOptions]=useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const originLocationCode = searchParams.get("originLocationCode");
+  const destinationLocationCode = searchParams.get("destinationLocationCode");
+  const travelClass = searchParams.get("travelClass");
+  const departureDate = searchParams.get("departureDate");
+  const adults = searchParams.get("adults");
+  const nonStop = searchParams.get("nonStop");
+  const returnDate = searchParams.get("returnDate");
+  const max = searchParams.get("max");
+
+  const [flightOptions, setFlightOptions] = useState([]);
 
   const [priceShown, setPriceShow] = useState(true);
-  const [authToken,setAuthToken] = useState('');
-  useEffect(()=>{
-    fetchFlightDetails().then(response=>{
-    const data = response?.data;
-    console.log("in useEffect",data)
-    if(data){
-      console.log("inside if")
-      setFlightOptions(data);
-      setIsLoading(false);
-    }
-  }).catch(error=>console.log("error occured while authenticating"));
-  },[originLocationCode,destinationLocationCode,departureDate])
+  const [authToken, setAuthToken] = useState("");
+  useEffect(() => {
+    fetchFlightDetails()
+      .then((response) => {
+        const data = response?.data;
+        console.log("in useEffect", data);
+        if (data != undefined) {
+          console.log("inside if");
+          setFlightOptions(data);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => console.log("error occured while authenticating"));
+  }, [
+    originLocationCode,
+    destinationLocationCode,
+    departureDate,
+    travelClass,
+    adults,
+  ]);
   async function fetchFlightDetails() {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      let url = import.meta.env.VITE_FLIGHT_JAVA_BACKEND + `/api/v1/flightService/flights/getflights?originLocationCode=${originLocationCode}&destinationLocationCode=${destinationLocationCode}&departureDate=${departureDate}&adults=${adults}&travelClass=ECONOMY&nonStop=${nonStop}&max=${max}&currencyCode=USD`
-      const response = await axios.get(url)
-      console.log("flights data: ",response.data);
+      let url =
+        import.meta.env.VITE_FLIGHT_JAVA_BACKEND +
+        `/api/v1/flightService/flights/getflights?originLocationCode=${originLocationCode}&destinationLocationCode=${destinationLocationCode}&departureDate=${departureDate}&adults=${adults}&travelClass=${travelClass}&nonStop=${nonStop}&max=${max}&currencyCode=USD`;
+      const response = await axios.get(url);
+      console.log("flights data: ", response.data);
       return response.data;
     } catch (error) {
-      console.log("Error occurred while fetching the flight data: ",error)
+      console.log("Error occurred while fetching the flight data: ", error);
     }
     return null;
   }
@@ -67,38 +78,54 @@ const FlightChoose = () => {
           </div>
           <div className="w-full flex flex-col items-start justify-start  border-[1px] border-[#E9E8FC] rounded-xl">
             <div className="w-full flex items-center justify-center">
-            {isLoading && <Circles
-  height="80"
-  width="80"
-  color="#605DEC"
-  ariaLabel="circles-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={isLoading}
-  />}
+              {isLoading && (
+                <Circles
+                  height="80"
+                  width="80"
+                  color="#605DEC"
+                  ariaLabel="circles-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={isLoading}
+                />
+              )}
             </div>
-            
-          {!isLoading && flightOptions?.map((flight,index)=>(
-                 <div
-                 key={index}
-                 className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
-                 onClick={() => setPriceShow(false)}
-               >
-                 
-                  <FlightCard    
-                     airlineCode={flight?.validatingAirlineCodes[0]}
-                     img={flight?.validatingAirlineCodes[0]}
-                     duration={formatFlightDuration(flight?.itineraries[0]?.segments[0]?.duration)}
-                     name={flight?.validatingAirlineCodes[0]}
-                     time={`${formatTimeTo12Hour(flight?.itineraries[0]?.segments[0]?.departure?.at)} - ${formatTimeTo12Hour(flight?.itineraries[0]?.segments[0]?.arrival?.at)}`}
-                     stop={"Non Stop"}
-                     // hnl="2h 45m in HNL"
-                     price={`${flight?.price?.currency === "USD"?"$":flight?.price?.currency} ${flight?.price?.total}`}
-                     trip="One Way"
-                   />
-                 
-               </div>
-                ))}
+
+            {!isLoading &&
+              flightOptions?.map((flight, index) => (
+                <div
+                  key={index}
+                  className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
+                  onClick={() => setPriceShow(false)}
+                >
+                  <FlightCard
+                    airlineCode={flight?.validatingAirlineCodes[0]}
+                    img={flight?.validatingAirlineCodes[0]}
+                    duration={formatFlightDuration(
+                      flight?.itineraries[0]?.segments[0]?.duration
+                    )}
+                    name={flight?.validatingAirlineCodes[0]}
+                    time={`${formatTimeTo12Hour(
+                      flight?.itineraries[0]?.segments[0]?.departure?.at
+                    )} - ${formatTimeTo12Hour(
+                      flight?.itineraries[0]?.segments[0]?.arrival?.at
+                    )}`}
+                    stop={"Non Stop"}
+                    // hnl="2h 45m in HNL"
+                    price={`${
+                      flight?.price?.currency === "USD"
+                        ? "$"
+                        : flight?.price?.currency
+                    } ${flight?.price?.total}`}
+                    trip="One Way"
+                  />
+                </div>
+              ))}
+            {isLoading == false && flightOptions?.length === 0 && (
+              <h1 className="text-[#6E7491] w-full flex items-cetner justify-center p-2 text-lg leading-6 font-semibold">
+                <span>No Flights Available</span>
+              </h1>
+            )}
             {/* <div
               className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC]  hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
               onClick={() => setPriceShow(false)}
@@ -177,16 +204,16 @@ const FlightChoose = () => {
           </div> */}
         </div>
 
-        {priceShown && (
-         <PriceGraph/>
-        )}
+        {priceShown && <PriceGraph />}
 
         {!priceShown && (
           <div className="mt-10 flex flex-col gap-10 justify-end items-start lg:items-end">
             <PriceDetails />
-            <Link to='/passenger-info' className="mt-5">
-           <button className="text-[#605DEC] border-2 border-[#605DEC] py-2 px-3 rounded hover:bg-[#605DEC] hover:text-white transition-all duration-200">Save & Close</button>
-        </Link>
+            <Link to="/passenger-info" className="mt-5">
+              <button className="text-[#605DEC] border-2 border-[#605DEC] py-2 px-3 rounded hover:bg-[#605DEC] hover:text-white transition-all duration-200">
+                Save & Close
+              </button>
+            </Link>
           </div>
         )}
       </div>
