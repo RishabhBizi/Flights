@@ -16,6 +16,7 @@ const SelectDetails = () => {
   const children = searchParams.get("children");
   const destinationLocationCode = searchParams.get("destinationLocationCode");
   const departureDate = searchParams.get("departureDate");
+  const travelClassParam = searchParams.get("travelClass");
   const [departureLocation, setDepartureLocation] =
     useState(originLocationCode);
   const [destinationLocation, setDestinationLocation] = useState(
@@ -27,7 +28,7 @@ const SelectDetails = () => {
   const [date, setDate] = useState([new Date(departureDate)]);
   console.log("date is: ",date)
   const [isNonStop,setIsNonStop]=useState(true);
-  const [travelClass,setTravelClass]=useState("ECONOMY")
+  const [travelClass,setTravelClass]=useState(travelClassParam)
 
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
@@ -228,6 +229,7 @@ const SelectDetails = () => {
               id="class"
               className="border-[1px] border-[#CBD4E6] bg-white text-[#27273F] p-1 cursor-pointer"
               onChange={(e)=>handleTravelClass(e.target.value)}
+              value={travelClass}
             >
               <option value="ECONOMY" className="">
                 Select Class

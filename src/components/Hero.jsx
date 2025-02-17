@@ -262,7 +262,7 @@ const Hero = () => {
             )}
           </div>
 
-          <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&adults=${noOfAdults}&children=${noOfMinors}&nonStop=${isNonStop}&max=10`} className="w-full ">
+          <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&travelClass=ECONOMY&adults=${noOfAdults}&children=${noOfMinors}&nonStop=${isNonStop}&max=10`} className="w-full ">
             <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5   lg:rounded-r-[4px]">
               Search
             </button>
