@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
+import {Circles} from "react-loader-spinner"
 import { map, sea } from "../assets/images";
 import {
   delta,
@@ -18,6 +19,7 @@ import {formatTimeTo12Hour} from "../../utils/formatTimeTo12Hour";
 
 const FlightChoose = () => {
   const [searchParams] = useSearchParams();
+  const [isLoading,setIsLoading]=useState(true);
   const originLocationCode = searchParams.get('originLocationCode');
   const destinationLocationCode = searchParams.get('destinationLocationCode');
   const departureDate = searchParams.get('departureDate');
@@ -37,6 +39,7 @@ const FlightChoose = () => {
     if(data){
       console.log("inside if")
       setFlightOptions(data);
+      setIsLoading(false);
     }
   }).catch(error=>console.log("error occured while authenticating"));
   },[])
@@ -62,15 +65,26 @@ const FlightChoose = () => {
             </h1>
           </div>
           <div className="w-full flex flex-col items-start justify-start  border-[1px] border-[#E9E8FC] rounded-xl">
-          {flightOptions?.map((flight,index)=>(
+            <div className="w-full flex items-center justify-center">
+            {isLoading && <Circles
+  height="80"
+  width="80"
+  color="#605DEC"
+  ariaLabel="circles-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  visible={isLoading}
+  />}
+            </div>
+            
+          {!isLoading && flightOptions?.map((flight,index)=>(
                  <div
                  key={index}
                  className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
                  onClick={() => setPriceShow(false)}
                >
                  
-                  <FlightCard
-                     
+                  <FlightCard    
                      airlineCode={flight?.validatingAirlineCodes[0]}
                      img={flight?.validatingAirlineCodes[0]}
                      duration={formatFlightDuration(flight?.itineraries[0]?.segments[0]?.duration)}
