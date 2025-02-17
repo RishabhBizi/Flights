@@ -1,7 +1,7 @@
 import { departure, arrival, calendar, person } from "../assets/icons";
 
 import { Calendar } from "react-date-range";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams,Link } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { formatUTCDate } from "../../utils/dateFormatter";
@@ -23,6 +23,7 @@ const SelectDetails = () => {
   const [departureDateState, setDepartureDateState] = useState(departureDate);
   const [noOfAdults, setNoOfAdults] = useState(adults);
   const [date, setDate] = useState([new Date(departureDate)]);
+  const [isNonStop,setIsNonStop]=useState(true);
 
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
@@ -49,6 +50,7 @@ const SelectDetails = () => {
               <input
                 type="text"
                 placeholder={departureLocation}
+                onChange={(e)=>setDepartureLocation(e.target.value)}
                 className="outline-none border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
               />
             </div>
@@ -57,8 +59,9 @@ const SelectDetails = () => {
               <img src={arrival} alt="departure" />
               <input
                 type="text"
+                onChange={(e)=>setDestinationLocation(e.target.value)}
                 placeholder={destinationLocation}
-                className="outline-none cursor-not-allowed border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
+                className="outline-none border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
               />
             </div>
 
@@ -83,6 +86,7 @@ const SelectDetails = () => {
                   }}
                   moveRangeOnFirstSelection={false}
                   ranges={date}
+                  
                   className="absolute top-64 lg:top-20 z-10 "
                 />
               )}
@@ -145,9 +149,11 @@ const SelectDetails = () => {
             </div>
 
             <div className="w-full lg:w-[96px] ">
+              <Link to={`/explore?originLocationCode=${departureLocation}&destinationLocationCode=${destinationLocation}&departureDate=${departureDateState}&adults=${noOfAdults}&nonStop=${isNonStop}&max=10`} className="w-full ">
               <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[48px] px-5   rounded-b-[4px] lg:rounded-r-[4px]">
                 Search
               </button>
+              </Link>
             </div>
           </div>
 

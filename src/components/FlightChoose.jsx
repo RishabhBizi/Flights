@@ -42,8 +42,9 @@ const FlightChoose = () => {
       setIsLoading(false);
     }
   }).catch(error=>console.log("error occured while authenticating"));
-  },[])
+  },[originLocationCode,destinationLocationCode,departureDate])
   async function fetchFlightDetails() {
+    setIsLoading(true)
     try {
       let url = import.meta.env.VITE_FLIGHT_JAVA_BACKEND + `/api/v1/flightService/flights/getflights?originLocationCode=${originLocationCode}&destinationLocationCode=${destinationLocationCode}&departureDate=${departureDate}&adults=${adults}&travelClass=ECONOMY&nonStop=${nonStop}&max=${max}&currencyCode=USD`
       const response = await axios.get(url)

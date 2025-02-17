@@ -249,11 +249,6 @@ const Hero = () => {
               </div>
             )}
           </div>
-          {console.log("depart",fromWhereLocation)}
-          {console.log("destin",toWhereLocation)}
-          {console.log("depart date",departureDate)}
-          {console.log("adults",noOfAdults)}
-          {console.log("is nnon",isNonStop)}
 
           <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&adults=${noOfAdults}&nonStop=${isNonStop}&max=10`} className="w-full ">
             <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5   lg:rounded-r-[4px]">
