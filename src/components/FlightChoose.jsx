@@ -96,7 +96,7 @@ const FlightChoose = () => {
                 <div
                   key={index}
                   className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
-                  onClick={() => setPriceShow(false)}
+                  // onClick={() => setPriceShow(false)}
                 >
                   <FlightCard
                     airlineCode={flight?.validatingAirlineCodes[0]}
@@ -204,9 +204,9 @@ const FlightChoose = () => {
           </div> */}
         </div>
 
-        {priceShown && <PriceGraph />}
+        {true && <PriceGraph />}
 
-        {!priceShown && (
+        {/* {!priceShown && (
           <div className="mt-10 flex flex-col gap-10 justify-end items-start lg:items-end">
             <PriceDetails />
             <Link to="/passenger-info" className="mt-5">
@@ -215,7 +215,7 @@ const FlightChoose = () => {
               </button>
             </Link>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );
