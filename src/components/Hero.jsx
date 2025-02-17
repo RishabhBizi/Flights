@@ -192,6 +192,7 @@ const Hero = () => {
             {openDate && (
               <Calendar 
                 editableDateInputs={true}
+                minDate={new Date()}
                 onChange={(item) => {
                   console.log("item: ",item)
                   const localFormattedDate = formatUTCDate(item);
