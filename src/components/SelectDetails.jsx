@@ -6,6 +6,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { formatUTCDate } from "../../utils/dateFormatter";
 import { format } from "date-fns";
+import { suggestions } from "../data/constant";
 import { useState } from "react";
 
 const SelectDetails = () => {
@@ -29,8 +30,11 @@ const SelectDetails = () => {
   console.log("date is: ",date)
   const [isNonStop,setIsNonStop]=useState(true);
   const [travelClass,setTravelClass]=useState(travelClassParam)
+  
 
   const [openOptions, setOpenOptions] = useState(false);
+  const [departureLocationSuggestions,setDepartureLocationSuggestions]=useState(false);
+  const [arrivalLocationSuggestions,setArrivalLocationSuggestion]=useState(false)
   const [options, setOptions] = useState({
     adult: 1,
     minor: 0,
@@ -69,9 +73,27 @@ const SelectDetails = () => {
               <input
                 type="text"
                 placeholder={departureLocation}
+                value={departureLocation}
                 onChange={(e)=>setDepartureLocation(e.target.value)}
+                onFocus={()=>setDepartureLocationSuggestions(!departureLocationSuggestions)}
                 className="outline-none border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
               />
+              { departureLocationSuggestions && (
+                          <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
+                            {suggestions.filter((item) => item.startsWith(departureLocation)).map((suggestion) => (
+                              <li
+                                key={suggestion}
+                                onClick={() =>{
+                                  setDepartureLocation(suggestion)
+                                  setDepartureLocationSuggestions(false)
+                                }}
+                                className="uppercase cursor-pointer hover:bg-[#605DEC] px-3 py-1 text-[#7C8DB0] hover:text-[#F6F6FE]  mt-1"
+                              >
+                                {suggestion}
+                              </li>
+                            ))}
+                          </ul>
+              )}
             </div>
 
             <div className="flex w-full lg:w-[173.92px] h-full justify-start items-center border-[1px] border-[#CBD4E6] p-2">
@@ -80,8 +102,26 @@ const SelectDetails = () => {
                 type="text"
                 onChange={(e)=>setDestinationLocation(e.target.value)}
                 placeholder={destinationLocation}
+                value={destinationLocation}
+                onFocus={()=>setArrivalLocationSuggestion(!arrivalLocationSuggestions)}
                 className="outline-none border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
               />
+              { arrivalLocationSuggestions && (
+                          <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
+                            {suggestions.filter((item) => item.startsWith(destinationLocation)).map((suggestion) => (
+                              <li
+                                key={suggestion}
+                                onClick={() =>{
+                                  setDestinationLocation(suggestion)
+                                  setArrivalLocationSuggestion(false)
+                                }}
+                                className="uppercase cursor-pointer hover:bg-[#605DEC] px-3 py-1 text-[#7C8DB0] hover:text-[#F6F6FE]  mt-1"
+                              >
+                                {suggestion}
+                              </li>
+                            ))}
+                          </ul>
+              )}
             </div>
 
             <div className="flex w-full  h-full justify-start items-center border-[1px] border-[#CBD4E6] p-2">

@@ -61,10 +61,10 @@ const PriceGraph = () => {
                   <h2 className="priceGridText">232</h2>
                 </div>
               </div> */}
-              <img src={luggagePhoto} className="mb-4"/>
-              <img src={manWithBag} className="mb-4"/>
-              <img src={womenWithPillow} className="mb-4"/>
-              <img src={vacuumBag}/>
+              <img src={luggagePhoto} className="mb-4" alt="bag"/>
+              <img src={manWithBag} className="mb-4" alt="man"/>
+              <img src={womenWithPillow} className="mb-4" alt="women"/>
+              <img src={vacuumBag} alt="bag"/>
             </div>
             <div className="flex flex-col items-start justify-start gap-5">
               {/* <div className="flex flex-col items-start justify-start">
