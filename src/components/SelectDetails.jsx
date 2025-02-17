@@ -80,16 +80,17 @@ const SelectDetails = () => {
               />
               { departureLocationSuggestions && (
                           <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
-                            {suggestions.filter((item) => item.startsWith(departureLocation)).map((suggestion) => (
+                            {suggestions.filter((item) => item.name.startsWith(departureLocation)).map((suggestion,id) => (
                               <li
-                                key={suggestion}
+                                key={id}
                                 onClick={() =>{
-                                  setDepartureLocation(suggestion)
+                                  setDepartureLocation(suggestion.code)
                                   setDepartureLocationSuggestions(false)
                                 }}
                                 className="uppercase cursor-pointer hover:bg-[#605DEC] px-3 py-1 text-[#7C8DB0] hover:text-[#F6F6FE]  mt-1"
                               >
-                                {suggestion}
+                                {suggestion.code}
+                                <p className="text-xs">{suggestion.name}</p>
                               </li>
                             ))}
                           </ul>
@@ -108,16 +109,17 @@ const SelectDetails = () => {
               />
               { arrivalLocationSuggestions && (
                           <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
-                            {suggestions.filter((item) => item.startsWith(destinationLocation)).map((suggestion) => (
+                            {suggestions.filter((item) => item.name.startsWith(destinationLocation)).map((suggestion,id) => (
                               <li
-                                key={suggestion}
+                                key={id}
                                 onClick={() =>{
-                                  setDestinationLocation(suggestion)
+                                  setDestinationLocation(suggestion.code)
                                   setArrivalLocationSuggestion(false)
                                 }}
                                 className="uppercase cursor-pointer hover:bg-[#605DEC] px-3 py-1 text-[#7C8DB0] hover:text-[#F6F6FE]  mt-1"
                               >
-                                {suggestion}
+                                {suggestion.code}
+                                <p className="text-xs">{suggestion.name}</p>
                               </li>
                             ))}
                           </ul>

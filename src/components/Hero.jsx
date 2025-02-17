@@ -141,13 +141,14 @@ const Hero = () => {
             />
            { departureSuggest.isOpen && ( 
            <ul className="w-[220px] h-56 absolute top-[70px]  bg-white rounded overflow-scroll">
-              {suggestions.filter((item) => item.startsWith(input)).map((suggestion) => (
+              {suggestions.filter((item) => item.name.startsWith(input)).map((suggestion,id) => (
                 <li
-                  key={suggestion}
-                  onClick={() => departureSuggest.handleSuggestionClick(suggestion)}
+                  key={id}
+                  onClick={() => departureSuggest.handleSuggestionClick(suggestion.code)}
                   className="uppercase  cursor-pointer hover:bg-[#605DEC] px-3 py-1 text-[#7C8DB0] hover:text-[#F6F6FE]  mt-1"
                 >
-                  {suggestion}
+                  {suggestion.code}
+                  <p className="text-xs">{suggestion.name}</p>
                 </li>
               ))}
             </ul>
@@ -166,13 +167,14 @@ const Hero = () => {
             />
            { arrivalSuggest.isOpen && (
             <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
-              {suggestions.filter((item) => item.startsWith(toInput)).map((suggestion) => (
+              {suggestions.filter((item) => item.name.startsWith(toInput)).map((suggestion,id) => (
                 <li
-                  key={suggestion}
-                  onClick={() => arrivalSuggest.handleSuggestionClickArrival(suggestion)}
+                  key={id}
+                  onClick={() => arrivalSuggest.handleSuggestionClickArrival(suggestion.code)}
                   className="uppercase cursor-pointer hover:bg-[#605DEC] px-3 py-1 text-[#7C8DB0] hover:text-[#F6F6FE]  mt-1"
                 >
-                  {suggestion}
+                  {suggestion.code}
+                  <p className="text-xs">{suggestion.name}</p>
                 </li>
               ))}
             </ul>
