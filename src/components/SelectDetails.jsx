@@ -1,20 +1,28 @@
 import { departure, arrival, calendar, person } from "../assets/icons";
 
-import { DateRange } from "react-date-range";
+import { Calendar } from "react-date-range";
+import { useSearchParams } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { formatUTCDate } from "../../utils/dateFormatter";
 import { format } from "date-fns";
 import { useState } from "react";
 
 const SelectDetails = () => {
+  const [searchParams] = useSearchParams();
   const [openDate, setOpenDate] = useState(false);
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
+  const originLocationCode = searchParams.get("originLocationCode");
+  const adults = searchParams.get("adults");
+  const destinationLocationCode = searchParams.get("destinationLocationCode");
+  const departureDate = searchParams.get("departureDate");
+  const [departureLocation, setDepartureLocation] =
+    useState(originLocationCode);
+  const [destinationLocation, setDestinationLocation] = useState(
+    destinationLocationCode
+  );
+  const [departureDateState, setDepartureDateState] = useState(departureDate);
+  const [noOfAdults, setNoOfAdults] = useState(adults);
+  const [date, setDate] = useState([new Date(departureDate)]);
 
   const [openOptions, setOpenOptions] = useState(false);
   const [options, setOptions] = useState({
@@ -40,8 +48,8 @@ const SelectDetails = () => {
               <img src={departure} alt="departure" />
               <input
                 type="text"
-                placeholder="SFO"
-                className="outline-none cursor-not-allowed border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
+                placeholder={departureLocation}
+                className="outline-none border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
               />
             </div>
 
@@ -49,7 +57,7 @@ const SelectDetails = () => {
               <img src={arrival} alt="departure" />
               <input
                 type="text"
-                placeholder="NRT"
+                placeholder={destinationLocation}
                 className="outline-none cursor-not-allowed border-none ml-2 placeholder:text-[#7C8DB0] placeholder:text-sm placeholder:leading-6"
               />
             </div>
@@ -60,17 +68,19 @@ const SelectDetails = () => {
                 className="text-[#7C8DB0] text-sm leading-6 ml-2 cursor-pointer"
                 onClick={() => setOpenDate(!openDate)}
               >
-                {openDate
-                  ? `${format(date[0].startDate, "dd/MM/yyyy")} to ${format(
-                      date[0].endDate,
-                      "dd/MM/yyyy"
-                    )}`
-                  : "Depart to Return"}
+                {departureDate}
               </span>
               {openDate && (
-                <DateRange
+                <Calendar
                   editableDateInputs={true}
-                  onChange={(item) => setDate([item.selection])}
+                  onChange={(item) => {
+                    console.log("item: ", item);
+                    const localFormattedDate = formatUTCDate(item);
+                    setDepartureDateState(localFormattedDate);
+                    const returnDate = formatUTCDate(item);
+                    // setReturnDate(returnDate);
+                    setDate([item]);
+                  }}
                   moveRangeOnFirstSelection={false}
                   ranges={date}
                   className="absolute top-64 lg:top-20 z-10 "
@@ -84,7 +94,7 @@ const SelectDetails = () => {
                 className="text-[#7C8DB0] text-sm leading-6 ml-2 cursor-pointer"
                 onClick={() => setOpenOptions(!openOptions)}
               >
-                {`${options.adult} Adult - ${options.minor} Minor `}
+                {`${noOfAdults} Adult - ${options.minor} Minor `}
               </span>
               {openOptions && (
                 <div className="w-52 h-fit flex flex-col gap-4 rounded-md bg-white shadowCard absolute lg:top-[70px] top-64 p-4 z-10">
