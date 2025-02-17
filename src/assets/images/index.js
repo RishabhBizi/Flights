@@ -51,6 +51,10 @@ import HotelFlag from './HotelFlag.png'
 import fiveHole from './fiveHole.png'
 import kimono from './kimono.png'
 import teamLab from './teamLab.png'
+import luggagePhoto from "./luggage.svg"
+import manWithBag from "./man-with-bag.svg"
+import womenWithPillow from "./women-with-pillow.svg"
+import vacuumBag from "./vacuum-bag.svg"
 
 export {
     whitespace,
@@ -105,5 +109,9 @@ export {
     smile,
     sunrise,
     sydney,
-    WorldMap
+    WorldMap,
+    luggagePhoto,
+    manWithBag,
+    womenWithPillow,
+    vacuumBag
 }
