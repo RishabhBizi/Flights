@@ -31,7 +31,7 @@ const Payment = () => {
       date.trim() !== ""
     ) {
       toast.success("Payment sent successfully");
-      navigate("/confirm");
+      // navigate("/confirm");
     } else {
       toast.warning("Please fill the card details");
     }
@@ -175,27 +175,29 @@ const Payment = () => {
                 Back to seat select
               </button>
             </Link>
-            <Link>
-              <button
+            {/* <Link>
+             
+            </Link> */}
+             <button
                 className="hidden lg:block py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#605DEC] rounded text-white hover:border-[#605DEC] transition-all duration-200"
                 onClick={submitInputs}
               >
                 Confirm and pay
               </button>
-            </Link>
           </div>
         </div>
 
         <div className="mt-10 flex flex-col gap-10 justify-end items-start lg:items-end">
           <PriceDetails />
-          <Link className="mt-5">
-            <button
+          {/* <Link className="mt-5">
+            
+          </Link> */}
+          <button
               className="py-2 px-4 border-[1px] border-[#7C8DB0] rounded text-[#7C8DB0]rounded bg-[#605DEC] text-white hover:border-[#605DEC] transition-all duration-200"
               onClick={submitInputs}
             >
               Confirm and pay
             </button>
-          </Link>
         </div>
       </div>
     </>

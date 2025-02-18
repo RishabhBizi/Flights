@@ -30,6 +30,7 @@ const FlightChoose = () => {
   const travelClass = searchParams.get("travelClass");
   const departureDate = searchParams.get("departureDate");
   const adults = searchParams.get("adults");
+  const children = searchParams.get("children");
   const nonStop = searchParams.get("nonStop");
   const returnDate = searchParams.get("returnDate");
   const max = searchParams.get("max");
@@ -43,7 +44,7 @@ const FlightChoose = () => {
       .then((response) => {
         const data = response?.data;
         console.log("in useEffect", data);
-        if (data != undefined) {
+        if (data != undefined && data?.length!=0) {
           console.log("inside if");
           setFlightOptions(data);
           setIsLoading(false);
@@ -68,6 +69,7 @@ const FlightChoose = () => {
     departureDate,
     travelClass,
     adults,
+    children
   ]);
   async function fetchFlightDetails() {
     setIsLoading(true);
@@ -75,7 +77,9 @@ const FlightChoose = () => {
       let url =
         import.meta.env.VITE_FLIGHT_JAVA_BACKEND +
         `/api/v1/flightService/flights/getflights?originLocationCode=${originLocationCode}&destinationLocationCode=${destinationLocationCode}&departureDate=${departureDate}&adults=${adults}&travelClass=${travelClass}&nonStop=${nonStop}&max=${max}&currencyCode=USD`;
-      const response = await axios.get(url);
+      const response = await axios.get(url,{
+        timeout:8000
+      });
       console.log("flights data: ", response.data);
       return response.data;
     } catch (error) {

@@ -24,8 +24,8 @@ const SelectDetails = () => {
     destinationLocationCode
   );
   const [departureDateState, setDepartureDateState] = useState(departureDate);
-  const [noOfAdults, setNoOfAdults] = useState(adults);
-  const [noOfMinors,setNoOfMinors]=useState(children);
+  const [noOfAdults, setNoOfAdults] = useState(parseInt(adults));
+  const [noOfMinors,setNoOfMinors]=useState(parseInt(children));
   const [date, setDate] = useState([new Date(departureDate)]);
   console.log("date is: ",date)
   const [isNonStop,setIsNonStop]=useState(true);
