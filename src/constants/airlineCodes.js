@@ -8,7 +8,8 @@ import {
     united,
     jetBlue,
     frontierAirlineLogo,
-    alaskaAirlineLogo
+    alaskaAirlineLogo,
+    hawaiiAirlineLogo
   } from "../assets/logo";
 
 
@@ -29,6 +30,10 @@ const airlineCodes = {
   "AS":{
     "name":"Alaska Airlines",
     "logo":alaskaAirlineLogo
+  },
+  "6X":{
+    "name":"Hawaiian Airlines",
+    "logo":hawaiiAirlineLogo
   }
 };
 

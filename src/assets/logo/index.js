@@ -13,6 +13,7 @@ import jetBlue from './jetblue.webp'
 import bizionicTechLogo from "./bizionictech-logo.webp"
 import frontierAirlineLogo from "./frontierAirline-logo.png";
 import alaskaAirlineLogo from "./alaska-airline.png";
+import hawaiiAirlineLogo from "./hawaii-airlines.png";
 
 export {
     china,
@@ -29,5 +30,6 @@ export {
     bizionicTechLogo,
     jetBlue,
     frontierAirlineLogo,
-    alaskaAirlineLogo
+    alaskaAirlineLogo,
+    hawaiiAirlineLogo
 }
