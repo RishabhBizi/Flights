@@ -177,7 +177,7 @@ const Payment = () => {
             </Link>
             <Link>
               <button
-                className="hidden lg:block py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#CBD4E6] rounded hover:bg-[#605DEC] hover:text-white hover:border-[#605DEC] transition-all duration-200"
+                className="hidden lg:block py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#605DEC] rounded text-white hover:border-[#605DEC] transition-all duration-200"
                 onClick={submitInputs}
               >
                 Confirm and pay

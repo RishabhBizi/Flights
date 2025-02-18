@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate  } from "react-router-dom";
 import { bag } from "../assets/images";
 import { useState } from "react";
 import { PriceDetails } from "../container";
+import { addPassenger } from "../slices/passengerSlice";
+import { useDispatch } from "react-redux";
 
 const PassengerInfo = () => {
   const [sameAsPassenger, setSameAsPassenger] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -45,6 +49,11 @@ const PassengerInfo = () => {
       };
     });
   };
+  const handleSeatSelection = ()=>{
+    dispatch(addPassenger({firstName}))
+    console.log("added the passenger info")
+    navigate("/seat-selection")
+  }
 
   return (
     <>
@@ -192,7 +201,7 @@ const PassengerInfo = () => {
                 Passenger 1
               </p>
               <p className="text-[#6E7491] text-base font-semibold">
-                First Last
+                {firstName}
               </p>
             </div>
             <div className="flex flex-col items-center gap-2">
@@ -223,11 +232,9 @@ const PassengerInfo = () => {
             <button className="py-2 px-4 border-[1px] border-[#605DEC] text-[#605DEC] rounded hover:bg-[#605DEC] hover:text-white transition-all duration-200">
               Save & close
             </button>
-            <Link to="/seat-selection">
-              <button className="hidden lg:block py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#605DEC] rounded hover:bg-[#605DEC] text-white hover:border-[#605DEC] transition-all duration-200">
+              <button onClick={handleSeatSelection} className="hidden lg:block py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#605DEC] rounded hover:bg-[#605DEC] text-white hover:border-[#605DEC] transition-all duration-200">
                 Select seats
               </button>
-            </Link>
           </div>
         </div>
 

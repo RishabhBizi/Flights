@@ -4,14 +4,25 @@ import { useSelector } from "react-redux";
 import {suggestions} from "../data/constant"
 import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 const SeatSelect = () => {
-  const flight = useSelector(state=>state.flight);
+  const flight = useSelector(state=>state?.flightReducer?.flight);
+  const passengers = useSelector(state=>state?.passengerReducer?.passenger)
   console.log("selected flight is: ",flight)
+  console.log("passenger is: ",passengers)
   const USDateFormatter = (input)=>{
     if(!input) return;
     const date = new Date(input)
     const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(date);
     return formattedDate;
   }
+  function getRandomNumber() {
+    return Math.floor(Math.random() * 11) + 1;
+  }
+  function getRandomAlphabet() {
+    const alphabets = 'ABCDEFGHIJ';
+    const randomIndex = Math.floor(Math.random() * alphabets.length);
+    return alphabets[randomIndex];
+  }
+  
   return (
     <>
       <div className="px-4 sm:px-8 w-full h-full flex flex-col lg:flex-row justify-between items-start gap-10 mt-20">
@@ -138,12 +149,12 @@ const SeatSelect = () => {
             <div className="flex flex-col items-start gap-1">
               <p className="text-[#7C8DB0] text-xs sm:text-sm">Passenger 1</p>
               <h1 className="text-[#6E7491] text-sm sm:text-xl">
-                Sofia Knowles
+                {passengers?.at(0)?.firstName}
               </h1>
             </div>
             <div className="flex flex-col items-start gap-1">
               <p className="text-[#7C8DB0] text-xs sm:text-sm">Seat number</p>
-              <h1 className="text-[#6E7491] text-sm sm:text-xl">9F</h1>
+              <h1 className="text-[#6E7491] text-sm sm:text-xl">{getRandomNumber()}{getRandomAlphabet()}</h1>
             </div>
             <div className="flex flex-row items-center gap-3">
               <button className="hidden sm:block text-[#605DEC] border-[1px] border-[#605DEC] p-2 sm:px-3 sm:py-2 rounded hover:bg-[#605DEC] hover:text-[#FAFAFA] transition-all duration-200 text-xs sm:text-base">
