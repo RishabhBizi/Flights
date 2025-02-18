@@ -190,7 +190,7 @@ const Payment = () => {
           <PriceDetails />
           <Link className="mt-5">
             <button
-              className="py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#CBD4E6] rounded hover:bg-[#605DEC] hover:text-white hover:border-[#605DEC] transition-all duration-200"
+              className="py-2 px-4 border-[1px] border-[#7C8DB0] rounded text-[#7C8DB0]rounded bg-[#605DEC] text-white hover:border-[#605DEC] transition-all duration-200"
               onClick={submitInputs}
             >
               Confirm and pay

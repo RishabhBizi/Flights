@@ -149,7 +149,7 @@ const SeatSelect = () => {
             <div className="flex flex-col items-start gap-1">
               <p className="text-[#7C8DB0] text-xs sm:text-sm">Passenger 1</p>
               <h1 className="text-[#6E7491] text-sm sm:text-xl">
-                {passengers?.at(0)?.firstName}
+                {passengers?.at(passengers?.length-1)?.firstName}
               </h1>
             </div>
             <div className="flex flex-col items-start gap-1">
