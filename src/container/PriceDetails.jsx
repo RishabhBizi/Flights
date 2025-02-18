@@ -1,6 +1,9 @@
 import { hawaiian } from "../assets/logo";
+import airlineCodes from "../constants/airlineCodes"
+import { formatFlightDuration } from "../../utils/formatFlightDuration";
+import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 
-const PriceDetails = () => {
+const PriceDetails = ({flight}) => {
   return (
     <>
       <div className="flex flex-col items-start lg:items-end justify-start lg:justify-end gap-5 w-full h-full sm:w-[400px]">
@@ -8,32 +11,40 @@ const PriceDetails = () => {
           <div className="flex items-start justify-between w-full p-3 ">
             <div className="flex items-start justify-start gap-2">
               <img
-                src={hawaiian}
+                src={airlineCodes[flight?.validatingAirlineCodes[0]]?.logo}
                 alt="hawaiian"
                 className="w-6 h-6 sm:w-9 sm:h-9 object-contain"
               />
               <div className="flex flex-col items-start justify-start">
                 <h1 className="text-[#27273F] font-normal text-sm sm:text-base">
-                  Hawaiian Airlines
+                  {airlineCodes[flight?.validatingAirlineCodes[0]]?.name}
                 </h1>
                 <p className="text-[#7C8DB0] font-normal text-sm sm:text-base">
-                  FIG4312
+                  Airline Code: {flight?.validatingAirlineCodes[0]}
                 </p>
               </div>
             </div>
             <div className="flex flex-col items-end gap-2">
               <p className="text-[#27273F] font-normal text-sm sm:text-base">
-                16h 45m (+1d)
+                {flight?.itineraries[0]?.segments[0]?.duration && formatFlightDuration(
+                                      flight?.itineraries[0]?.segments[0]?.duration
+                                    )}
               </p>
               <p className="text-[#27273F] font-normal text-sm sm:text-base">
-                7:00 AM - 4:15 PM
+                {flight?.itineraries[0]?.segments[0]?.departure?.at && flight?.itineraries[0]?.segments[0]?.arrival?.at && (
+                  `${formatTimeTo12Hour(
+                                      flight?.itineraries[0]?.segments[0]?.departure?.at
+                                    )} - ${formatTimeTo12Hour(
+                                      flight?.itineraries[0]?.segments[0]?.arrival?.at
+                                    )}`
+                )}
               </p>
-              <p className="text-[#7C8DB0] font-normal text-sm sm:text-base">
+              {/* <p className="text-[#7C8DB0] font-normal text-sm sm:text-base">
                 2h 45m in HNL
-              </p>
+              </p> */}
             </div>
           </div>
-          <div className="flex items-start justify-between w-full border-t-[1px] border-[#E9E8FC] px-3 py-4">
+          {/* <div className="flex items-start justify-between w-full border-t-[1px] border-[#E9E8FC] px-3 py-4">
             <div className="flex items-start justify-start gap-2">
               <img
                 src={hawaiian}
@@ -60,20 +71,20 @@ const PriceDetails = () => {
                 2h 45m in HNL
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col gap-3 p-3 w-[231px]">
           <div className="w-full flex items-center justify-between text-[#27273F] text-sm sm:text-base">
             <p>Subtotal</p>
-            <p>$503</p>
+            <p>${flight?.price?.base}</p>
           </div>
           <div className="w-full flex items-center justify-between text-[#27273F] text-sm sm:text-base">
             <p>Taxes and Fees</p>
-            <p>$121</p>
+            <p>${(flight?.price?.grandTotal - flight?.price?.base).toFixed(2)}</p>
           </div>
           <div className="w-full flex items-center justify-between text-[#27273F] text-sm sm:text-base">
             <p>Total</p>
-            <p>$624</p>
+            <p>${flight?.price?.grandTotal}</p>
           </div>
         </div>
       </div>

@@ -224,7 +224,7 @@ const PassengerInfo = () => {
               Save & close
             </button>
             <Link to="/seat-selection">
-              <button className="hidden lg:block py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#CBD4E6] rounded hover:bg-[#605DEC] hover:text-white hover:border-[#605DEC] transition-all duration-200">
+              <button className="hidden lg:block py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#605DEC] rounded hover:bg-[#605DEC] text-white hover:border-[#605DEC] transition-all duration-200">
                 Select seats
               </button>
             </Link>
@@ -233,12 +233,12 @@ const PassengerInfo = () => {
 
         <div className="w-full h-full sm:w-[400px] justify-between flex-col">
           <div className="mt-10 flex flex-col gap-10 justify-end items-start lg:items-end">
-            <PriceDetails />
-            <Link to="/seat-selection" className="mt-5">
+            {/* <PriceDetails /> */}
+            {/* <Link to="/seat-selection" className="mt-5">
               <button className="py-2 px-4 border-[1px] border-[#7C8DB0] text-[#7C8DB0] bg-[#CBD4E6] rounded hover:bg-[#605DEC] hover:text-white hover:border-[#605DEC] transition-all duration-200">
                 Select seats
               </button>
-            </Link>
+            </Link> */}
           </div>     
         <div className="flex justify-center sm:justify-center mt-10">
           <img

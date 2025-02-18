@@ -20,6 +20,7 @@ import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 const FlightChoose = () => {
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedFlight,setSelectedFlight]=useState({});
   const originLocationCode = searchParams.get("originLocationCode");
   const destinationLocationCode = searchParams.get("destinationLocationCode");
   const travelClass = searchParams.get("travelClass");
@@ -96,7 +97,10 @@ const FlightChoose = () => {
                 <div
                   key={index}
                   className="w-full cursor-pointer border-b-[1px] border-[#E9E8FC] hover:bg-[#F6F6FE] transition-all duration-300 focus:bg-[#F6F6FE]"
-                  onClick={() => setPriceShow(false)}
+                  onClick={() => {
+                    setPriceShow(false);
+                    setSelectedFlight(flight)
+                  }}
                 >
                   <FlightCard
                     airlineCode={flight?.validatingAirlineCodes[0]}
@@ -208,7 +212,7 @@ const FlightChoose = () => {
 
         {!priceShown && (
           <div className="mt-10 flex flex-col gap-10 justify-end items-start lg:items-end">
-            <PriceDetails />
+            <PriceDetails flight={selectedFlight} />
             <Link to="/passenger-info" className="mt-5">
               <button className="text-[#605DEC] border-2 border-[#605DEC] py-2 px-3 rounded hover:bg-[#605DEC] hover:text-white transition-all duration-200">
                 Save & Close
