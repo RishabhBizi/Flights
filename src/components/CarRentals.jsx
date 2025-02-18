@@ -43,12 +43,12 @@ const CarRentals = () => {
             name="Plane Rental"
             desc="Experience ultimate luxury and convenience with private flight rentals. Fly on your schedule with privacy, comfort, and top-tier service. Book your exclusive journey today!"
           />
-          <PlacesCardV2
+          {/* <PlacesCardV2
             image={bike}
             title="Bike "
             name="Rental"
             desc="Discover the city or countryside with our premium bike rentals. Choose from mountain, road, or electric bikes. Affordable prices, easy booking, and ultimate riding comfort."
-          />
+          /> */}
           <PlacesCardV2
             image={yacht}
             title="Yacht "

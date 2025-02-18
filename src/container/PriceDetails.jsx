@@ -1,6 +1,6 @@
 import { hawaiian } from "../assets/logo";
 import airlineCodes from "../constants/airlineCodes"
-import { formatFlightDuration } from "../../utils/formatFlightDuration";
+import { formatFlightDurationV2 } from "../../utils/formatFlightDuration";
 import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 import { useSelector } from "react-redux";
 
@@ -29,8 +29,9 @@ const PriceDetails = () => {
             </div>
             <div className="flex flex-col items-end gap-2">
               <p className="text-[#27273F] font-normal text-sm sm:text-base">
-                {flight?.flight?.itineraries[0]?.segments[0]?.duration && formatFlightDuration(
-                                      flight?.flight?.itineraries[0]?.segments[0]?.duration
+                {flight?.flight?.itineraries[0]?.segments[0]?.arrival?.at && flight?.flight?.itineraries[0]?.segments[0]?.departure?.at  && formatFlightDurationV2(
+                                      flight?.flight?.itineraries[0]?.segments[0]?.arrival?.at,
+                                      flight?.flight?.itineraries[0]?.segments[0]?.departure?.at
                                     )}
               </p>
               <p className="text-[#27273F] font-normal text-sm sm:text-base">
