@@ -18,6 +18,7 @@ import { formatFlightDuration } from "../../utils/formatFlightDuration";
 import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 import { useDispatch } from "react-redux";
 import { addFlight } from "../slices/flightSlice";
+import { getHardcodedData } from "../data/airlinedata";
 
 const FlightChoose = () => {
   const dispatch = useDispatch();
@@ -47,8 +48,20 @@ const FlightChoose = () => {
           setFlightOptions(data);
           setIsLoading(false);
         }
+        else if(data?.length ===0){
+          setFlightOptions(getHardcodedData(originLocationCode,destinationLocationCode,departureDate))
+          setIsLoading(false);
+        }
+        else{
+          setFlightOptions(getHardcodedData(originLocationCode,destinationLocationCode,departureDate))
+          setIsLoading(false);
+        }
       })
-      .catch((error) => console.log("error occured while authenticating"));
+      .catch((error) => {
+        console.log("error occured while fetching data")
+        setFlightOptions(getHardcodedData(originLocationCode,destinationLocationCode,departureDate))
+        setIsLoading(false);
+      });
   }, [
     originLocationCode,
     destinationLocationCode,
