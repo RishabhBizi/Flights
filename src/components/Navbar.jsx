@@ -4,6 +4,7 @@ import { MdOutlineClose } from 'react-icons/md'
 import { BiMenuAltLeft } from 'react-icons/bi'
 import { useState } from "react";
 import { Signin } from "../container";
+import megaphone from "../assets/logo/megaphone.svg"
 
 const Navbar = () => {
   const location = useLocation();
@@ -72,8 +73,9 @@ const Navbar = () => {
           <ul className="hidden md:flex items-center space-x-8 text-[#7C8DB0]">
           <Link
               to="advertise"
-              className={`text-base  hover:text-[#605DEC] transition-all duration-200 ${loactionPath("/#") && "text-[#605DEC]"}`}
+              className={`text-base flex gap-2  hover:text-[#605DEC] transition-all duration-200 ${loactionPath("/#") && "text-[#605DEC]"}`}
             >
+              <img src={megaphone} className="h-[20px]"/>
               <li>Advertise</li>
             </Link>
             <Link
