@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import { business, economy, plane3 } from "../assets/images";
-
+import { useSelector } from "react-redux";
+import {suggestions} from "../data/constant"
+import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 const SeatSelect = () => {
+  const flight = useSelector(state=>state.flight);
+  console.log("selected flight is: ",flight)
+  const USDateFormatter = (input)=>{
+    if(!input) return;
+    const date = new Date(input)
+    const formattedDate = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit' }).format(date);
+    return formattedDate;
+  }
   return (
     <>
       <div className="px-4 sm:px-8 w-full h-full flex flex-col lg:flex-row justify-between items-start gap-10 mt-20">
@@ -12,25 +22,29 @@ const SeatSelect = () => {
           <div className="w-full h-20 flex justify-between items-center bg-[#27273F]">
             <div className="h-full w-full flex flex-col items-start justify-center px-4">
               <h1 className="text-[#FAFAFA] text-base md:text-xl font-bold">
-                SFO
+                {flight?.departureLocation}
               </h1>
-              <p className="text-[#E9E8FC] text-xs">California, US</p>
+              <p className="text-[#E9E8FC] text-xs" style={{fontSize:'10px'}}>{suggestions?.filter(item=>item?.code===flight?.departureLocation)?.at(0)?.name}</p>
             </div>
             <div className="h-full w-full flex flex-col items-start justify-center px-4">
               <h1 className="text-[#FAFAFA] text-base md:text-xl font-bold">
-                NRT
+                {flight?.arrivalLocation}
               </h1>
-              <p className="text-[#E9E8FC] text-xs">Tokyo, Japan</p>
+              <p className="text-[#E9E8FC] text-xs" style={{fontSize:'10px'}}>{suggestions?.filter(item=>item?.code===flight?.arrivalLocation)?.at(0)?.name}</p>
             </div>
             <div className="h-full w-full flex flex-col items-start justify-center px-4 hover:bg-[#605DEC] transition-all duration-200">
               <h1 className="text-[#FAFAFA] text-xs sm:text-sm md:text-base font-normal">
-                Feb 25 | 7:00AM
+                {USDateFormatter(flight?.departureDate)} | {formatTimeTo12Hour(
+                                      flight?.flight?.itineraries[0]?.segments[0]?.departure?.at
+                                    )}
               </h1>
               <p className="text-[#E9E8FC] text-xs">Departing</p>
             </div>
             <div className="h-full w-full flex flex-col items-start justify-center  px-4 hover:bg-[#605DEC] transition-all duration-200">
               <h1 className="text-[#FAFAFA] text-xs sm:text-sm md:text-base font-normal">
-                Mar 21 | 12:15PM
+              {USDateFormatter(flight?.departureDate)} | {formatTimeTo12Hour(
+                      flight?.flight?.itineraries[0]?.segments[0]?.arrival?.at
+                    )}
               </h1>
               <p className="text-[#E9E8FC] text-xs">Arriving</p>
             </div>
@@ -45,8 +59,13 @@ const SeatSelect = () => {
               />
               <div className="px-7 mt-5 flex flex-col gap-2">
                 <h1 className="text-xl font-semibold text-[#6E7491]">
-                  Economy
+                  Economy {(flight?.travelClass ==="PREMIUM_ECONOMY" || flight?.travelClass === "ECONOMY") && (
+                    <button className="bg-[#5CD6C0] px-1 py-[1px] text-[#FAFAFA] rounded text-sm">
+                    Selected
+                  </button>
+                  )}
                 </h1>
+                
                 <p className="text-[#7C8DB0] text-sm font-normal">
                   Rest and recharge during your flight with extended leg room,
                   personalized service, and a multi-course meal service
@@ -75,9 +94,11 @@ const SeatSelect = () => {
                   <h1 className="text-xl font-semibold text-[#6E7491]">
                     Business class
                   </h1>
-                  <button className="bg-[#5CD6C0] px-1 py-[1px] text-[#FAFAFA] rounded text-sm">
+                  {flight?.travelClass ==="BUSINESS" && (
+                    <button className="bg-[#5CD6C0] px-1 py-[1px] text-[#FAFAFA] rounded text-sm">
                     Selected
                   </button>
+                  )}
                 </div>
                 <p className="text-[#7C8DB0] text-sm font-normal">
                   Rest and recharge during your flight with extended leg room,

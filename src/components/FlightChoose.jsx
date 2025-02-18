@@ -16,8 +16,11 @@ import { authLogin } from "../../utils/authLogin";
 import axios from "axios";
 import { formatFlightDuration } from "../../utils/formatFlightDuration";
 import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
+import { useDispatch } from "react-redux";
+import { addFlight } from "../slices/flightSlice";
 
 const FlightChoose = () => {
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedFlight,setSelectedFlight]=useState({});
@@ -100,6 +103,7 @@ const FlightChoose = () => {
                   onClick={() => {
                     setPriceShow(false);
                     setSelectedFlight(flight)
+                    dispatch(addFlight({travelClass,departureLocation:originLocationCode,arrivalLocation:destinationLocationCode,departureDate,flight}))
                   }}
                 >
                   <FlightCard

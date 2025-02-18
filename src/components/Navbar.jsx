@@ -70,6 +70,12 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-8">
           <ul className="hidden md:flex items-center space-x-8 text-[#7C8DB0]">
+          <Link
+              to="advertise"
+              className={`text-base  hover:text-[#605DEC] transition-all duration-200 ${loactionPath("/") && "text-[#605DEC]"}`}
+            >
+              <li>Advertise</li>
+            </Link>
             <Link
               to="/"
               className={`text-base  hover:text-[#605DEC] transition-all duration-200 ${loactionPath("/") && "text-[#605DEC]"}`}

@@ -13,10 +13,12 @@ import {
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { store } from "./store/store";
+import { Provider } from 'react-redux'
 
 const App = () => {
   return (
-    <>
+    <Provider store={store}>
       <div className="font-Nunito overflow-hidden max-w-[1440px] mx-auto">
         <Navbar />
         <Routes>
@@ -43,7 +45,7 @@ const App = () => {
           theme="dark"
         />
       </div>
-    </>
+    </Provider>
   );
 };
 
