@@ -14,7 +14,7 @@ import { FlightCard, PriceDetails, PriceGraph } from "../container";
 import { Link } from "react-router-dom";
 import { authLogin } from "../../utils/authLogin";
 import axios from "axios";
-import { formatFlightDuration } from "../../utils/formatFlightDuration";
+import { formatFlightDuration,formatFlightDurationV2 } from "../../utils/formatFlightDuration";
 import { formatTimeTo12Hour } from "../../utils/formatTimeTo12Hour";
 import { useDispatch } from "react-redux";
 import { addFlight } from "../slices/flightSlice";
@@ -122,8 +122,9 @@ const FlightChoose = () => {
                   <FlightCard
                     airlineCode={flight?.validatingAirlineCodes[0]}
                     img={flight?.validatingAirlineCodes[0]}
-                    duration={formatFlightDuration(
-                      flight?.itineraries[0]?.segments[0]?.duration
+                    duration={formatFlightDurationV2(
+                      flight?.itineraries[0]?.segments[0]?.arrival?.at,
+                      flight?.itineraries[0]?.segments[0]?.departure?.at
                     )}
                     name={flight?.validatingAirlineCodes[0]}
                     time={`${formatTimeTo12Hour(
@@ -232,7 +233,7 @@ const FlightChoose = () => {
             <PriceDetails flight={selectedFlight} />
             <Link to="/passenger-info" className="mt-5">
               <button className="text-[#605DEC] border-2 border-[#605DEC] py-2 px-3 rounded hover:bg-[#605DEC] hover:text-white transition-all duration-200">
-                Save & Close
+                Proceed
               </button>
             </Link>
           </div>
