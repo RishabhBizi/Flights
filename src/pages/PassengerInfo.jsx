@@ -50,9 +50,17 @@ const PassengerInfo = () => {
     });
   };
   const handleSeatSelection = ()=>{
-    dispatch(addPassenger({firstName}))
+    dispatch(addPassenger({firstName,seatNumber:getRandomNumber()+getRandomAlphabet()}))
     console.log("added the passenger info")
     navigate("/seat-selection")
+  }
+  function getRandomNumber() {
+    return Math.floor(Math.random() * 11) + 1;
+  }
+  function getRandomAlphabet() {
+    const alphabets = 'ABCDEFGHIJ';
+    const randomIndex = Math.floor(Math.random() * alphabets.length);
+    return alphabets[randomIndex];
   }
 
   return (
