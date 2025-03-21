@@ -3,9 +3,10 @@ import { departure, arrival, calendar, person } from "../assets/icons";
 import { DateRange,Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { FaMicrophone } from "react-icons/fa";
 import { format } from "date-fns";
 // import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { suggestions } from "../data/constant";
@@ -26,6 +27,44 @@ const Hero = () => {
   const [noOfAdults,setNoOfAdults]=useState(1);
   const [noOfMinors,setNoOfMinors]=useState(0);
   const [isNonStop,setIsNonStop]=useState(false);
+  const [text, setText] = useState("");
+  const [isListening, setIsListening] = useState(false);
+  let recognition = null;
+  useEffect(()=>{
+    if (!("webkitSpeechRecognition" in window)) {
+      alert("Your browser does not support Speech Recognition. Try Chrome.");
+    } else {
+      recognition = new window.webkitSpeechRecognition();
+      recognition.continuous = true; // Keeps listening until stopped
+      recognition.interimResults = true; // Shows partial results
+      recognition.lang = "en-US";
+
+      recognition.onresult = (event) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        setText(transcript);
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+      };
+    }
+  },[])
+  const startListening = () => {
+    if (recognition) {
+      setIsListening(true);
+      recognition.start();
+    }
+  };
+
+  const stopListening = () => {
+    if (recognition) {
+      setIsListening(false);
+      recognition.stop();
+    }
+  };
   const fromWhere = (e) =>{
       console.log("environment variable: ",e.target.value)
       setFromWhereLocation("DTW")
@@ -266,11 +305,19 @@ const Hero = () => {
           </div>
 
           <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&travelClass=ECONOMY&adults=${noOfAdults}&children=${noOfMinors}&nonStop=${isNonStop}&max=10`} className="w-full ">
-            <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5   lg:rounded-r-[4px]">
+            <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5">
               Search
             </button>
           </Link>
+          <button onClick={startListening} className="w-fit bg-[#4CAF50] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5  lg:rounded-r-[4px]">
+          <FaMicrophone />
+            </button>
+            
         </div>
+        {text && <p className="w-full max-w-[1024px] bg-white border border-[#CBD4E6] rounded-md shadow-md p-4 text-lg text-[#333] mt-4 min-h-[50px] flex items-center">
+          {text}
+        </p>}
+        
       </header>
     </>
   );
