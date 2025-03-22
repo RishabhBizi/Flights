@@ -10,7 +10,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { suggestions } from "../data/constant";
-import { formatUTCDate } from "../../utils/dateFormatter";
+import { formatUTCDate,formatDate } from "../../utils/dateFormatter";
+import axios from "axios";
 
 
 
@@ -27,8 +28,9 @@ const Hero = () => {
   const [noOfAdults,setNoOfAdults]=useState(1);
   const [noOfMinors,setNoOfMinors]=useState(0);
   const [isNonStop,setIsNonStop]=useState(false);
-  const [text, setText] = useState("");
+  const [text, setText] = useState("I am travelling from New York to Washington DC on 23rd March 2025 with my wife and 2 years old child. Give me cheapest flight rates.");
   const [isListening, setIsListening] = useState(false);
+  const [llmResponse,setLLMResponse]=useState({});
   let recognition = null;
   useEffect(()=>{
     if (!("webkitSpeechRecognition" in window)) {
@@ -152,6 +154,28 @@ const Hero = () => {
       return 0;
     })
   }
+  async function getLLMResponse() {
+    let url = import.meta.env.VITE_LLM_BACKEND + "/travel/"
+    try {
+      const response = await axios.post(url,{
+        "input":text
+      })
+      console.log("response is: ",response.data)
+      setLLMResponse(response.data);
+      setInput(response.data?.departureLocation)
+      setToInput(response.data?.arrivalLocation);
+      setFromWhereLocation(response.data?.departureLocation);
+      setToWhereLocation(response.data?.arrivalLocation);
+      if(response.data?.departureDate !=null){
+        const departureDate = formatDate(response.data?.departureDate,"MM-DD-YYYY","YYYY-MM-DD");
+        setDepartureDate(departureDate)
+        console.log("dep: ",departureDate)
+      }
+
+    } catch (error) {
+      console.log("error while fetching LLM response: ",error);
+    }
+  }
 
   const departureSuggest = AutoSuggest('');
   const arrivalSuggest = AutoSuggest('');
@@ -226,7 +250,7 @@ const Hero = () => {
               className="text-[#7C8DB0] text-base leading-6 ml-2 cursor-pointer"
               onClick={() => setOpenDate(!openDate)}
             >
-              {openDate
+              {departureDate
                 ? departureDate
                 : "Departure Date"}
             </span>
@@ -234,9 +258,11 @@ const Hero = () => {
               <Calendar 
                 editableDateInputs={true}
                 minDate={new Date()}
+                date={new Date(departureDate)}
                 onChange={(item) => {
                   console.log("item: ",item)
                   const localFormattedDate = formatUTCDate(item);
+                  console.log("formatted date: ",localFormattedDate)
                   setDepartureDate(localFormattedDate)
                   const returnDate = formatUTCDate(item);
                   setReturnDate(returnDate);
@@ -317,6 +343,7 @@ const Hero = () => {
         {text && <p className="w-full max-w-[1024px] bg-white border border-[#CBD4E6] rounded-md shadow-md p-4 text-lg text-[#333] mt-4 min-h-[50px] flex items-center">
           {text}
         </p>}
+        <button onClick={getLLMResponse}>Send</button>
         
       </header>
     </>

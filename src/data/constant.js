@@ -20,7 +20,7 @@ export const suggestions =[
 {"code":"LGA","name":"NEW YORK - LaGuardia Airport"},
 {"code":"MSP","name":"MINNEAPOLIS - Minneapolis-Saint Paul International Airport"},
 {"code":"PHL","name":"PHILADELPHIA - Philadelphia International Airport"},
-{"code":"DCA","name":"WASHINGTON, D.C. - Ronald Reagan Washington National Airport"},
+{"code":"DCA","name":"WASHINGTON DC. - Ronald Reagan Washington National Airport"},
 {"code":"SAN","name":"SAN DIEGO - San Diego International Airport"},
 {"code":"BWI","name":"BALTIMORE - Baltimore/Washington International Thurgood Marshall Airport"},
 {"code":"TAM","name":"TAMPA - Tampa International Airport"},
