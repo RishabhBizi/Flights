@@ -3,7 +3,7 @@ import { departure, arrival, calendar, person } from "../assets/icons";
 import { DateRange,Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { FaMicrophone } from "react-icons/fa";
+import { FaMicrophone,FaPaperPlane  } from "react-icons/fa";
 import { format } from "date-fns";
 // import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -28,7 +28,7 @@ const Hero = () => {
   const [noOfAdults,setNoOfAdults]=useState(1);
   const [noOfMinors,setNoOfMinors]=useState(0);
   const [isNonStop,setIsNonStop]=useState(false);
-  const [text, setText] = useState("I am travelling from New York to Washington DC on 23rd March 2025 with my wife and 2 years old child. Give me cheapest flight rates.");
+  const [text, setText] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [llmResponse,setLLMResponse]=useState({});
   let recognition = null;
@@ -340,11 +340,21 @@ const Hero = () => {
             </button>
             
         </div>
-        {text && <p className="w-full max-w-[1024px] bg-white border border-[#CBD4E6] rounded-md shadow-md p-4 text-lg text-[#333] mt-4 min-h-[50px] flex items-center">
-          {text}
-        </p>}
-        <button onClick={getLLMResponse}>Send</button>
-        
+        <div className="w-full max-w-[1024px] bg-white border border-[#CBD4E6] rounded-md shadow-md p-4 text-lg text-[#333] mt-4 min-h-[50px] flex items-center relative">
+        <input
+        type="text"
+        value={text} 
+        onChange={(e) => setText(e.target.value)} // Allow manual input
+        placeholder="Type or use voice input..."
+        className="w-full text-base text-gray-800 outline-none border-none bg-transparent"
+      />
+  <button 
+    className="absolute right-3 bg-[#605DEC] text-white px-3 py-2 rounded-md hover:bg-[#4b4acb] transition duration-200"
+    onClick={getLLMResponse} // Replace with your send function
+  >
+    <FaPaperPlane />
+  </button>
+</div>
       </header>
     </>
   );
