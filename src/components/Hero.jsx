@@ -226,7 +226,7 @@ const Hero = () => {
              
             />
            { departureSuggest.isOpen && ( 
-           <ul className="w-[220px] h-56 absolute top-[70px]  bg-white rounded overflow-scroll">
+           <ul className="w-[220px] h-56 absolute top-[70px]  bg-white rounded overflow-scroll z-[100]">
               {suggestions.filter((item) => item.name.startsWith(input.toLocaleUpperCase())).map((suggestion,id) => (
                 <li
                   key={id}
@@ -252,7 +252,7 @@ const Hero = () => {
               className="uppercase placeholder:capitalize outline-none border-none ml-2 text-base text-[#7C8DB0] placeholder:text-[#7C8DB0] placeholder:text-base placeholder:leading-6"
             />
            { arrivalSuggest.isOpen && (
-            <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll">
+            <ul className="w-[220px] h-56 absolute top-[70px] bg-white rounded overflow-scroll z-[100]">
               {suggestions.filter((item) => item.name.startsWith(toInput.toLocaleUpperCase())).map((suggestion,id) => (
                 <li
                   key={id}
@@ -281,7 +281,7 @@ const Hero = () => {
               <Calendar 
                 editableDateInputs={true}
                 minDate={new Date()}
-                date={new Date(departureDate)}
+                date={departureDate ? new Date(departureDate):new Date()}
                 onChange={(item) => {
                   console.log("item: ",item)
                   const localFormattedDate = formatUTCDate(item);
@@ -306,7 +306,7 @@ const Hero = () => {
               {`${noOfAdults} Adult - ${noOfMinors} Minor `}
             </span>
             {openOptions && (
-              <div className="w-52 h-fit flex flex-col gap-4 rounded-md bg-white shadowCard absolute lg:top-[70px] top-64 p-4 z-10">
+              <div className="w-52 h-fit flex flex-col gap-4 rounded-md bg-white shadowCard absolute lg:top-[70px] top-64 p-4 z-[100]">
                 <div className="flex justify-between items-center">
                   <span className="text-[#7C8DB0] text-base leading-6">
                     Adults:

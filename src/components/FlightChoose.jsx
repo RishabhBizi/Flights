@@ -78,7 +78,7 @@ const FlightChoose = () => {
         import.meta.env.VITE_FLIGHT_JAVA_BACKEND +
         `/api/v1/flightService/flights/getflights?originLocationCode=${originLocationCode}&destinationLocationCode=${destinationLocationCode}&departureDate=${departureDate}&adults=${adults}&travelClass=${travelClass}&nonStop=${nonStop}&max=${max}&currencyCode=USD`;
       const response = await axios.get(url,{
-        timeout:8000
+        timeout:30000
       });
       console.log("flights data: ", response.data);
       return response.data;
