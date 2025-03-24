@@ -6,8 +6,9 @@ import "react-date-range/dist/theme/default.css";
 import { FaMicrophone,FaPaperPlane,FaSpinner  } from "react-icons/fa";
 import { format } from "date-fns";
 // import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { Link } from "react-router-dom";
+import { IoMdMicOff } from "react-icons/io";
 
 import { suggestions } from "../data/constant";
 import { formatUTCDate,formatDate } from "../../utils/dateFormatter";
@@ -32,40 +33,63 @@ const Hero = () => {
   const [isListening, setIsListening] = useState(false);
   const [llmResponse,setLLMResponse]=useState({});
   const [loadingLLMResponse,setLoadingLLMResponse]=useState(false);
+  const [automaticSearch,setAutomaticSearch]=useState(false);
+  const recognitionRef = useRef(null);
   let recognition = null;
   useEffect(()=>{
     if (!("webkitSpeechRecognition" in window)) {
       alert("Your browser does not support Speech Recognition. Try Chrome.");
     } else {
-      recognition = new window.webkitSpeechRecognition();
-      recognition.continuous = true; // Keeps listening until stopped
-      recognition.interimResults = true; // Shows partial results
-      recognition.lang = "en-US";
+      recognitionRef.current = new window.webkitSpeechRecognition();
+      recognitionRef.current.continuous = true;
+  recognitionRef.current.interimResults = true;
+  recognitionRef.current.lang = "en-US";
 
-      recognition.onresult = (event) => {
+  recognitionRef.current.onresult = (event) => {
         let transcript = "";
+        
         for (let i = event.resultIndex; i < event.results.length; i++) {
           transcript += event.results[i][0].transcript;
         }
         setText(transcript);
+        console.log("text is: ",transcript)
+        if(event.results[0]?.isFinal){
+          stopListening();
+          setAutomaticSearch(prev=>!prev)
+        }
       };
 
-      recognition.onerror = (event) => {
+      recognitionRef.current.onerror = (event) => {
         console.error("Speech recognition error:", event.error);
       };
+      recognitionRef.current.onend = () => {
+        console.log("Speech recognition ended");
+        setIsListening(false);
+      };
     }
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
   },[])
+  useEffect(()=>{
+    getLLMResponse()
+  },[automaticSearch])
+  function stopSpeechRecognition() {
+    
+  }
   const startListening = () => {
-    if (recognition) {
+    if (recognitionRef.current) {
       setIsListening(true);
-      recognition.start();
+      recognitionRef.current.start();
     }
   };
 
   const stopListening = () => {
-    if (recognition) {
+    if (recognitionRef.current) {
       setIsListening(false);
-      recognition.stop();
+      recognitionRef.current.stop();
     }
   };
   const fromWhere = (e) =>{
@@ -158,6 +182,11 @@ const Hero = () => {
   async function getLLMResponse() {
     let url = import.meta.env.VITE_LLM_BACKEND + "/travel"
     setLoadingLLMResponse(true);
+    if(!text){
+      console.log("Text is empty");
+      setLoadingLLMResponse(false);
+      return;
+    }
     try {
       const response = await axios.post(url,{
         "input":text
@@ -358,8 +387,8 @@ const Hero = () => {
               Search
             </button>
           </Link>
-          <button onClick={startListening} className="w-fit bg-[#4CAF50] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5  lg:rounded-r-[4px]">
-          <FaMicrophone />
+          <button onClick={isListening? stopListening:startListening} className="w-fit bg-[#4CAF50] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5  lg:rounded-r-[4px]">
+          {isListening ? <IoMdMicOff />:  <FaMicrophone />}
             </button>
             
         </div>
