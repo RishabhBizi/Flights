@@ -156,7 +156,7 @@ const Hero = () => {
     })
   }
   async function getLLMResponse() {
-    let url = import.meta.env.VITE_LLM_BACKEND + "/travel/"
+    let url = import.meta.env.VITE_LLM_BACKEND + "/travel"
     setLoadingLLMResponse(true);
     try {
       const response = await axios.post(url,{
