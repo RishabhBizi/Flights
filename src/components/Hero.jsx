@@ -3,7 +3,7 @@ import { departure, arrival, calendar, person } from "../assets/icons";
 import { DateRange,Calendar } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { FaMicrophone,FaPaperPlane  } from "react-icons/fa";
+import { FaMicrophone,FaPaperPlane,FaSpinner  } from "react-icons/fa";
 import { format } from "date-fns";
 // import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -31,6 +31,7 @@ const Hero = () => {
   const [text, setText] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [llmResponse,setLLMResponse]=useState({});
+  const [loadingLLMResponse,setLoadingLLMResponse]=useState(false);
   let recognition = null;
   useEffect(()=>{
     if (!("webkitSpeechRecognition" in window)) {
@@ -156,11 +157,13 @@ const Hero = () => {
   }
   async function getLLMResponse() {
     let url = import.meta.env.VITE_LLM_BACKEND + "/travel/"
+    setLoadingLLMResponse(true);
     try {
       const response = await axios.post(url,{
         "input":text
       })
       console.log("response is: ",response.data)
+      setLoadingLLMResponse(false);
       setLLMResponse(response.data);
       setInput(response.data?.departureLocation)
       setToInput(response.data?.arrivalLocation);
@@ -171,8 +174,28 @@ const Hero = () => {
         setDepartureDate(departureDate)
         console.log("dep: ",departureDate)
       }
+      const travellers = response.data?.travellers;
+      if(travellers !=null){
+        let numberOfAdults = 0;
+      let numberOfMinors = 0;
+      travellers?.forEach(traveller=>{
+        if(!traveller?.minor){
+          console.log("inside null ",traveller?.age)
+          numberOfAdults+=1;
+        }
+        else if(traveller?.minor){
+          console.log("inside < 18 ",traveller?.age)
+          numberOfMinors+=1;
+        }
+      })
+      if(numberOfAdults >=1){
+        setNoOfAdults(numberOfAdults);
+      }
+      setNoOfMinors(numberOfMinors);
+      }
 
     } catch (error) {
+      setLoadingLLMResponse(false);
       console.log("error while fetching LLM response: ",error);
     }
   }
@@ -352,7 +375,7 @@ const Hero = () => {
     className="absolute right-3 bg-[#605DEC] text-white px-3 py-2 rounded-md hover:bg-[#4b4acb] transition duration-200"
     onClick={getLLMResponse} // Replace with your send function
   >
-    <FaPaperPlane />
+    {loadingLLMResponse ? <FaSpinner className="animate-spin" />:<FaPaperPlane />}
   </button>
 </div>
       </header>
