@@ -10,6 +10,7 @@ import {
   PassengerInfo,
   Payment,
   SeatSelect,
+  ChatUI
 } from "./pages";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +24,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Flights />} />
+          <Route path="/chat" element={<ChatUI />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/packages" element={<Packages />} />
           <Route path="/explore" element={<FlightExplore />} />

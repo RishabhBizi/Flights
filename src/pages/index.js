@@ -6,6 +6,7 @@ import PassengerInfo from "./PassengerInfo";
 import SeatSelect from "./SeatSelect";
 import Payment from "./Payment";
 import Confirm from "./Confirm";
+import ChatUI from "./chat";
 
 export {
     Flights,
@@ -15,5 +16,6 @@ export {
     PassengerInfo,
     SeatSelect,
     Payment,
-    Confirm
+    Confirm,
+    ChatUI
 }
