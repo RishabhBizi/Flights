@@ -71,6 +71,7 @@ const FlightChoose = () => {
     adults,
     children
   ]);
+  
   async function fetchFlightDetails() {
     setIsLoading(true);
     try {
