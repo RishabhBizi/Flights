@@ -383,16 +383,16 @@ const Hero = () => {
           </div>
 
           <Link to={`/explore?originLocationCode=${fromWhereLocation}&destinationLocationCode=${toWhereLocation}&departureDate=${departureDate}&travelClass=ECONOMY&adults=${noOfAdults}&children=${noOfMinors}&nonStop=${isNonStop}&max=10`} className="w-full ">
-            <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5">
+            <button className="w-full bg-[#605DEC] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5 lg:rounded-r-[4px]">
               Search
             </button>
           </Link>
-          <button onClick={isListening? stopListening:startListening} className="w-fit bg-[#4CAF50] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5  lg:rounded-r-[4px]">
+          {/* <button onClick={isListening? stopListening:startListening} className="w-fit bg-[#4CAF50] text-[#FAFAFA] text-lg leading-6 h-[45px] lg:h-[65px] px-5  lg:rounded-r-[4px]">
           {isListening ? <IoMdMicOff />:  <FaMicrophone />}
-            </button>
+            </button> */}
             
         </div>
-        <div className="w-full max-w-[1024px] bg-white border border-[#CBD4E6] rounded-md shadow-md p-4 text-lg text-[#333] mt-4 min-h-[50px] flex items-center relative">
+        {/* <div className="w-full max-w-[1024px] bg-white border border-[#CBD4E6] rounded-md shadow-md p-4 text-lg text-[#333] mt-4 min-h-[50px] flex items-center relative">
         <input
         type="text"
         value={text} 
@@ -406,7 +406,7 @@ const Hero = () => {
   >
     {loadingLLMResponse ? <FaSpinner className="animate-spin" />:<FaPaperPlane />}
   </button>
-</div>
+</div> */}
       </header>
     </>
   );
